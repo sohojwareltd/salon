@@ -67,7 +67,34 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => 4,
+            'role_id' => 3,
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered($request, $user)
+    {
+        // Send custom verification email
+        $verificationUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        \Illuminate\Support\Facades\Mail::to($user->email)
+            ->send(new \App\Mail\VerifyEmailMail(
+                $user,
+                $verificationUrl,
+                'customer'
+            ));
+
+        return redirect($this->redirectPath())
+            ->with('status', 'A verification link has been sent to your email address. Please verify your email to continue.');
     }
 }

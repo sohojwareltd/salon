@@ -22,7 +22,7 @@ Route::get('/providers', [ProviderController::class, 'index'])->name('providers.
 Route::get('/providers/{provider}', [ProviderController::class, 'show'])->name('providers.show');
 
 // Authentication Routes
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 // Test Login Route (Remove in production)
 Route::get('/test/login-as-user/{id}', function ($id) {
@@ -43,6 +43,11 @@ Route::get('/test/login-as-user/{id}', function ($id) {
     
     return redirect($redirectTo)->with('success', "Logged in as {$user->name}");
 })->name('test.login');
+
+// Email Testing Routes (Remove in production)
+if (app()->environment('local')) {
+    require __DIR__.'/email-test.php';
+}
 
 // Provider Dashboard Routes
 Route::middleware(['auth', 'role:provider'])->prefix('provider-dashboard')->name('provider.')->group(function () {
@@ -84,7 +89,7 @@ Route::get('/payment/paypal/success', [App\Http\Controllers\Customer\PaymentCont
 Route::get('/payment/paypal/cancel', [App\Http\Controllers\Customer\PaymentController::class, 'paypalCancel'])->name('payment.paypal.cancel');
 
 // Customer Dashboard Routes
-Route::middleware(['auth', 'role:customer'])->prefix('customer-dashboard')->name('customer.')->group(function () {
+Route::middleware(['auth', 'verified', 'role:customer'])->prefix('customer-dashboard')->name('customer.')->group(function () {
     Route::get('/', [App\Http\Controllers\Customer\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/bookings', [App\Http\Controllers\Customer\DashboardController::class, 'bookings'])->name('bookings');
     Route::get('/booking/{appointment}/details', [App\Http\Controllers\Customer\DashboardController::class, 'bookingDetails'])->name('booking.details');
@@ -118,7 +123,7 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer-dashboard')->name
 });
 
 // Legacy dashboard route (will redirect based on role)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/appointments/book/{provider?}', [DashboardController::class, 'bookingPage'])->name('appointments.book');
     Route::get('/appointments/available-slots/{provider}', [DashboardController::class, 'availableSlots'])->name('appointments.available-slots');

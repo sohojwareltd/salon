@@ -229,6 +229,24 @@ class PaymentController extends Controller
                     'payment'
                 );
 
+                // Send payment email to customer
+                \Illuminate\Support\Facades\Mail::to($appointment->customer->email)
+                    ->send(new \App\Mail\PaymentCompleted(
+                        $appointment->customer,
+                        'customer',
+                        $payment,
+                        $appointment
+                    ));
+
+                // Send payment email to provider
+                \Illuminate\Support\Facades\Mail::to($appointment->provider->user->email)
+                    ->send(new \App\Mail\PaymentCompleted(
+                        $appointment->provider->user,
+                        'provider',
+                        $payment,
+                        $appointment
+                    ));
+
                 return view('customer.payment-success', compact('appointment', 'payment'));
             }
 
@@ -487,6 +505,24 @@ class PaymentController extends Controller
                     route('provider.wallet.index'),
                     'payment'
                 );
+
+                // Send payment email to customer
+                \Illuminate\Support\Facades\Mail::to($appointment->customer->email)
+                    ->send(new \App\Mail\PaymentCompleted(
+                        $appointment->customer,
+                        'customer',
+                        $payment,
+                        $appointment
+                    ));
+
+                // Send payment email to provider
+                \Illuminate\Support\Facades\Mail::to($appointment->provider->user->email)
+                    ->send(new \App\Mail\PaymentCompleted(
+                        $appointment->provider->user,
+                        'provider',
+                        $payment,
+                        $appointment
+                    ));
 
                 return view('customer.payment-success', compact('appointment', 'payment'));
             }

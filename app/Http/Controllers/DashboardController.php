@@ -135,6 +135,23 @@ class DashboardController extends Controller
                 'booking'
             );
 
+            // Send appointment booked email to customer
+            $customer = \Illuminate\Support\Facades\Auth::user();
+            \Illuminate\Support\Facades\Mail::to($customer->email)
+                ->send(new \App\Mail\AppointmentBooked(
+                    $customer,
+                    'customer',
+                    $appointment
+                ));
+
+            // Send appointment booked email to provider
+            \Illuminate\Support\Facades\Mail::to($appointment->provider->user->email)
+                ->send(new \App\Mail\AppointmentBooked(
+                    $appointment->provider->user,
+                    'provider',
+                    $appointment
+                ));
+
             return redirect()
                 ->route('appointments.thank-you')
                 ->with('appointment', $appointment);

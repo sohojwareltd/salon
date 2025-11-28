@@ -84,6 +84,14 @@ class Appointment extends Model
     }
 
     /**
+     * Get all payments for the appointment
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    /**
      * Get the review for the appointment
      */
     public function review()

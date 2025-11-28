@@ -204,6 +204,22 @@ class DashboardController extends Controller
                 route('customer.booking.details', $appointment->id),
                 'approval'
             );
+            
+            // Send appointment confirmed email to customer
+            \Illuminate\Support\Facades\Mail::to($appointment->customer->email)
+                ->send(new \App\Mail\AppointmentConfirmed(
+                    $appointment->customer,
+                    'customer',
+                    $appointment
+                ));
+            
+            // Send appointment confirmed email to provider
+            \Illuminate\Support\Facades\Mail::to($appointment->provider->user->email)
+                ->send(new \App\Mail\AppointmentConfirmed(
+                    $appointment->provider->user,
+                    'provider',
+                    $appointment
+                ));
         } elseif ($request->status === 'completed' && $oldStatus !== 'completed') {
             // Notify Customer - Request Review
             makeNotification(
@@ -222,6 +238,22 @@ class DashboardController extends Controller
                 route('provider.booking.details', $appointment->id),
                 'complete'
             );
+            
+            // Send service completed email to customer
+            \Illuminate\Support\Facades\Mail::to($appointment->customer->email)
+                ->send(new \App\Mail\ServiceCompleted(
+                    $appointment->customer,
+                    'customer',
+                    $appointment
+                ));
+            
+            // Send service completed email to provider
+            \Illuminate\Support\Facades\Mail::to($appointment->provider->user->email)
+                ->send(new \App\Mail\ServiceCompleted(
+                    $appointment->provider->user,
+                    'provider',
+                    $appointment
+                ));
         }
 
         return back()->with('success', 'Appointment status updated successfully.');

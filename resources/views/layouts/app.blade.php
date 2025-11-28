@@ -46,7 +46,7 @@
                     Contact
                 </a>
             </nav>
-            {{-- @dd(auth()->user()->role) --}}
+         
 
             <!-- Header Actions -->
             <div class="header-actions">
@@ -58,15 +58,15 @@
                         Register
                     </a>
                 @else
-                    @if(auth()->user()->role === 'customer')
+                    @if(auth()->user()->role->name === 'customer')
                         <a href="{{ route('customer.dashboard') }}" class="btn-primary">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
-                    @elseif(auth()->user()->role === 'provider')
+                    @elseif(auth()->user()->role->name === 'provider')
                         <a href="{{ route('provider.dashboard') }}" class="btn-primary">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
-                    @elseif(auth()->user()->role === 'salon')
+                    @elseif(auth()->user()->role->name === 'salon')
                         <a href="{{ route('salon.dashboard') }}" class="btn-primary">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
