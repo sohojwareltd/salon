@@ -1,0 +1,316 @@
+
+/* ============================================
+   BARBERSHOP COLOR PALETTE
+   ============================================ */
+:root {
+    --barber-navy: #09122C;
+    --barber-burgundy: #872341;
+    --barber-red: #BE3144;
+    --barber-coral: #E17564;
+    
+    /* Extend palette */
+    --barber-navy-light: #1a2847;
+    --barber-burgundy-dark: #6a1c33;
+}
+
+
+/* Hero Section Styles */
+.hero-section {
+    background: linear-gradient(135deg, var(--barber-navy) 0%, var(--barber-burgundy) 100%);
+    color: white;
+    padding: 8rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><path d="M0 0L50 50L0 100M50 0L100 50L50 100" stroke="rgba(255,255,255,0.03)" stroke-width="2"/></svg>');
+    opacity: 0.5;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+/* Feature Card Styles */
+.feature-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    text-align: center;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.feature-icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--barber-coral), var(--barber-red));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    box-shadow: 0 10px 30px rgba(190, 49, 68, 0.3);
+}
+
+.feature-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--barber-navy);
+    margin-bottom: 1rem;
+}
+
+.feature-description {
+    color: var(--c4);
+    opacity: 0.8;
+    line-height: 1.7;
+}
+
+/* Salon Card Premium Style */
+.salon-card-premium {
+    background: white;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    border: 1px solid var(--c1-dark);
+}
+
+.salon-card-premium:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-2xl);
+    border-color: var(--barber-coral);
+}
+
+.salon-card-header {
+    background: linear-gradient(135deg, var(--barber-burgundy), var(--barber-red));
+    padding: 1rem;
+    color: white;
+    text-align: center;
+}
+
+.salon-card-body {
+    padding: 1.5rem;
+}
+
+.salon-name {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: var(--barber-navy);
+    margin-bottom: 0.75rem;
+}
+
+.salon-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--c4);
+    opacity: 0.7;
+    font-size: 0.9375rem;
+    margin-bottom: 0.5rem;
+}
+
+.salon-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--c1-dark);
+}
+
+.salon-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--warning);
+    font-weight: 600;
+}
+
+/* Service Card Premium */
+.service-card-premium {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--barber-coral), var(--barber-red));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform var(--transition-base);
+}
+
+.service-card-premium:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+.service-card-premium:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.service-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--barber-burgundy-dark), var(--barber-burgundy));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.75rem;
+}
+
+.service-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--barber-navy);
+    margin-bottom: 0.5rem;
+}
+
+.service-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--barber-red);
+    margin-bottom: 0.75rem;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, var(--barber-red) 0%, var(--barber-burgundy) 100%);
+    color: white;
+    padding: 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+
+.cta-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--barber-navy);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: var(--c4);
+    opacity: 0.7;
+}
+
+/* Provider Card Premium */
+.provider-card-premium {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    text-align: center;
+}
+
+.provider-card-premium:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.provider-avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--barber-coral), var(--barber-red));
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    border: 4px solid white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.provider-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--barber-navy);
+    margin-bottom: 0.5rem;
+}
+
+.provider-specialty {
+    color: var(--barber-burgundy);
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
