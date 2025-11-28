@@ -169,13 +169,6 @@
 
         <div class="info-row">
             <span class="info-label">
-                <i class="bi bi-shop me-1" style="color: #872341;"></i>Salon
-            </span>
-            <span class="info-value">{{ $appointment->salon->salon_name }}</span>
-        </div>
-
-        <div class="info-row">
-            <span class="info-label">
                 <i class="bi bi-person-fill me-1" style="color: #872341;"></i>Provider
             </span>
             <span class="info-value">{{ $appointment->provider->name }}</span>
@@ -285,10 +278,52 @@
         </div>
     </div>
 
+    <!-- Payment Method Selection -->
+    <div class="payment-card">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #6366f1, #4f46e5); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <i class="bi bi-credit-card-2-front-fill" style="font-size: 20px; color: white;"></i>
+            </div>
+            <h5 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0;">
+                Select Payment Method
+            </h5>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <!-- Stripe Option -->
+            <div class="payment-method-card" data-method="stripe" onclick="selectPaymentMethod('stripe')" style="background: white; border: 3px solid #635bff; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.3s;">
+                <div style="text-align: center;">
+                    <div style="width: 64px; height: 64px; background: #635bff; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="bi bi-stripe" style="font-size: 32px; color: white;"></i>
+                    </div>
+                    <h6 style="font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Stripe</h6>
+                    <p style="font-size: 12px; color: #64748b; margin: 0;">Credit/Debit Card</p>
+                    <div class="selected-badge" style="margin-top: 12px; padding: 6px 12px; background: #635bff; color: white; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-block;">
+                        Selected
+                    </div>
+                </div>
+            </div>
+
+            <!-- PayPal Option -->
+            <div class="payment-method-card" data-method="paypal" onclick="selectPaymentMethod('paypal')" style="background: white; border: 3px solid #e2e8f0; border-radius: 16px; padding: 24px; cursor: pointer; transition: all 0.3s;">
+                <div style="text-align: center;">
+                    <div style="width: 64px; height: 64px; background: #0070ba; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                        <i class="bi bi-paypal" style="font-size: 32px; color: white;"></i>
+                    </div>
+                    <h6 style="font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">PayPal</h6>
+                    <p style="font-size: 12px; color: #64748b; margin: 0;">Fast & Secure</p>
+                    <div class="selected-badge" style="margin-top: 12px; padding: 6px 12px; background: #e2e8f0; color: #64748b; border-radius: 6px; font-size: 12px; font-weight: 600; display: none;">
+                        Selected
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Pay Button -->
     <button type="button" id="payButton" class="btn-pay">
         <i class="bi bi-lock-fill" style="font-size: 20px;"></i>
-        <span>Pay Securely with Stripe</span>
+        <span id="payButtonText">Pay Securely with Stripe</span>
         <i class="bi bi-arrow-right" style="font-size: 20px;"></i>
     </button>
 
@@ -319,7 +354,29 @@
 
 <script>
 let selectedTip = 0;
+let selectedPaymentMethod = 'stripe';
 const serviceAmount = {{ $appointment->total_amount }};
+
+function selectPaymentMethod(method) {
+    selectedPaymentMethod = method;
+    
+    // Update UI
+    document.querySelectorAll('.payment-method-card').forEach(card => {
+        if (card.dataset.method === method) {
+            card.style.borderColor = method === 'stripe' ? '#635bff' : '#0070ba';
+            card.querySelector('.selected-badge').style.display = 'inline-block';
+            card.querySelector('.selected-badge').style.background = method === 'stripe' ? '#635bff' : '#0070ba';
+            card.querySelector('.selected-badge').style.color = 'white';
+        } else {
+            card.style.borderColor = '#e2e8f0';
+            card.querySelector('.selected-badge').style.display = 'none';
+        }
+    });
+    
+    // Update button text
+    const buttonText = document.getElementById('payButtonText');
+    buttonText.textContent = method === 'stripe' ? 'Pay Securely with Stripe' : 'Pay with PayPal';
+}
 
 function selectTip(amount) {
     selectedTip = amount;
@@ -362,29 +419,35 @@ document.getElementById('payButton').addEventListener('click', async function() 
     button.innerHTML = '<i class="bi bi-hourglass-split"></i> <span>Processing...</span>';
 
     try {
-        const response = await fetch('{{ route("customer.payment.checkout", $appointment->id) }}', {
+        const endpoint = selectedPaymentMethod === 'stripe' 
+            ? '{{ route("customer.payment.checkout", $appointment->id) }}'
+            : '{{ route("customer.payment.paypal", $appointment->id) }}';
+
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             body: JSON.stringify({
-                tip_amount: selectedTip
+                tip_amount: selectedTip,
+                payment_method: selectedPaymentMethod
             })
         });
 
         const data = await response.json();
 
         if (data.url) {
-            // Redirect to Stripe Checkout
+            // Redirect to payment gateway
             window.location.href = data.url;
         } else {
-            throw new Error('Failed to create checkout session');
+            throw new Error(data.message || 'Failed to create checkout session');
         }
     } catch (error) {
         alert('Payment error: ' + error.message);
         button.disabled = false;
-        button.innerHTML = '<i class="bi bi-lock-fill"></i> <span>Pay Securely with Stripe</span> <i class="bi bi-arrow-right"></i>';
+        const methodText = selectedPaymentMethod === 'stripe' ? 'Stripe' : 'PayPal';
+        button.innerHTML = `<i class="bi bi-lock-fill"></i> <span>Pay Securely with ${methodText}</span> <i class="bi bi-arrow-right"></i>`;
     }
 });
 </script>

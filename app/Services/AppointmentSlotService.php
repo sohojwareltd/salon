@@ -20,18 +20,19 @@ class AppointmentSlotService
      */
     public function getAvailableSlots(Provider $provider, Service $service, string $date): Collection
     {
-        $salon = $provider->salon;
         $requestedDate = Carbon::parse($date);
+        $weekday = $requestedDate->dayOfWeek;
         
-        // Check if salon is open on this day
-        $dayOfWeek = strtolower($requestedDate->format('l'));
-        if (!in_array($dayOfWeek, $salon->working_days ?? [])) {
+        // Check provider's schedule for this weekday
+        $providerSchedule = $provider->schedules()->where('weekday', $weekday)->first();
+        
+        if (!$providerSchedule || $providerSchedule->is_off) {
             return collect([]);
         }
         
-        // Get salon working hours
-        $openingTime = Carbon::parse($date . ' ' . $salon->opening_time);
-        $closingTime = Carbon::parse($date . ' ' . $salon->closing_time);
+        // Get provider working hours
+        $openingTime = Carbon::parse($date . ' ' . ($providerSchedule->start_time ?? '09:00:00'));
+        $closingTime = Carbon::parse($date . ' ' . ($providerSchedule->end_time ?? '18:00:00'));
         
         // Generate all possible slots
         $slots = collect();
@@ -82,8 +83,7 @@ class AppointmentSlotService
      */
     public function getAvailableSlotsForMultipleServices(Provider $provider, Collection $services, string $date): Collection
     {
-        $provider->load(['salon', 'schedules', 'exceptions']);
-        $salon = $provider->salon;
+        $provider->load(['schedules']);
         $requestedDate = Carbon::parse($date);
         $weekday = $requestedDate->dayOfWeek;
 
@@ -94,8 +94,8 @@ class AppointmentSlotService
             return collect([]);
         }
 
-        $openTime = $providerSchedule->start_time ?? $salon->opening_time ?? '09:00:00';
-        $closeTime = $providerSchedule->end_time ?? $salon->closing_time ?? '18:00:00';
+        $openTime = $providerSchedule->start_time ?? '09:00:00';
+        $closeTime = $providerSchedule->end_time ?? '18:00:00';
 
         $openingTime = Carbon::parse($date . ' ' . $openTime);
         $closingTime = Carbon::parse($date . ' ' . $closeTime);
@@ -194,7 +194,6 @@ class AppointmentSlotService
         $appointment = Appointment::create([
             'customer_id' => $userId,
             'user_id' => $userId,
-            'salon_id' => $provider->salon_id,
             'provider_id' => $provider->id,
             'service_id' => $services->first()->id,
             'appointment_date' => $date,
@@ -217,14 +216,13 @@ class AppointmentSlotService
      *
      * @param \App\Models\User $user
      * @param int $providerId
-     * @param int $salonId
      * @param int $serviceId
      * @param string $date
      * @param string $startTime
      * @param string|null $notes
      * @return Appointment
      */
-    public function bookAppointment($user, int $providerId, int $salonId, int $serviceId, string $date, string $startTime, ?string $notes = null): Appointment
+    public function bookAppointment($user, int $providerId, int $serviceId, string $date, string $startTime, ?string $notes = null): Appointment
     {
         $service = Service::findOrFail($serviceId);
         $startTimeCarbon = Carbon::parse($date . ' ' . $startTime);
@@ -232,7 +230,6 @@ class AppointmentSlotService
         
         return Appointment::create([
             'user_id' => $user->id,
-            'salon_id' => $salonId,
             'provider_id' => $providerId,
             'service_id' => $serviceId,
             'appointment_date' => $date,

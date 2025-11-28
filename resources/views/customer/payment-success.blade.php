@@ -114,11 +114,7 @@
         </div>
 
         <div class="detail-row">
-            <span style="color: #64748b; font-weight: 500;">Salon</span>
-            <span style="color: #1e293b; font-weight: 600;">{{ $appointment->salon->salon_name }}</span>
-        </div>
-
-        <div class="detail-row">
+        <div class="info-row">
             <span style="color: #64748b; font-weight: 500;">Status</span>
             <span style="background: #dcfce7; color: #15803d; padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 13px;">
                 <i class="bi bi-check-circle-fill me-1"></i>Paid

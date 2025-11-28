@@ -87,9 +87,6 @@
                 Appointment Details
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                <span style="color: #64748b;">Salon:</span>
-                <span style="color: #1e293b; font-weight: 600;">{{ $appointment->salon->salon_name }}</span>
-            </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                 <span style="color: #64748b;">Date:</span>
                 <span style="color: #1e293b; font-weight: 600;">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('F d, Y') }}</span>

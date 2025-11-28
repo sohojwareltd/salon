@@ -279,50 +279,6 @@
 
         <!-- Right Column -->
         <div class="col-lg-4">
-            <!-- Salon Information -->
-            <div class="details-card">
-                <div class="section-title">
-                    <div class="section-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-                        <i class="bi bi-shop" style="font-size: 24px; color: white;"></i>
-                    </div>
-                    <h5 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0;">
-                        Salon
-                    </h5>
-                </div>
-
-                <div style="text-align: center; margin-bottom: 20px;">
-                    @if($appointment->salon->logo)
-                        <img src="{{ asset('storage/' . $appointment->salon->logo) }}" alt="{{ $appointment->salon->salon_name }}" 
-                             style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid #f1f5f9;">
-                    @else
-                        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #872341, #BE3144); margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                            <i class="bi bi-shop" style="font-size: 48px; color: white;"></i>
-                        </div>
-                    @endif
-                </div>
-
-                <h6 style="font-size: 20px; font-weight: 700; color: #1e293b; text-align: center; margin-bottom: 16px;">
-                    {{ $appointment->salon->salon_name }}
-                </h6>
-
-                <div style="font-size: 14px; color: #64748b; text-align: center; margin-bottom: 8px;">
-                    <i class="bi bi-geo-alt-fill me-1" style="color: #872341;"></i>
-                    {{ $appointment->salon->address }}
-                </div>
-
-                <div style="font-size: 14px; color: #64748b; text-align: center; margin-bottom: 16px;">
-                    <i class="bi bi-telephone-fill me-1" style="color: #872341;"></i>
-                    {{ $appointment->salon->phone }}
-                </div>
-
-                @if($appointment->salon->hasSubdomain())
-                    <a href="{{ $appointment->salon->subdomain_url }}" target="_blank"
-                       style="display: block; text-align: center; padding: 12px; background: linear-gradient(135deg, #872341, #BE3144); color: white; border-radius: 12px; font-weight: 600; text-decoration: none;">
-                        <i class="bi bi-eye me-2"></i>View Salon Profile
-                    </a>
-                @endif
-            </div>
-
             <!-- Provider Information -->
             <div class="details-card">
                 <div class="section-title">
@@ -335,8 +291,8 @@
                 </div>
 
                 <div style="text-align: center; margin-bottom: 20px;">
-                    @if($appointment->provider->profile_picture)
-                        <img src="{{ asset('storage/' . $appointment->provider->profile_picture) }}" alt="{{ $appointment->provider->name }}" 
+                    @if($appointment->provider->photo)
+                        <img src="{{ asset('storage/' . $appointment->provider->photo) }}" alt="{{ $appointment->provider->name }}" 
                              style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 4px solid #f1f5f9;">
                     @else
                         <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #7c3aed); margin: 0 auto; display: flex; align-items: center; justify-content: center;">
@@ -351,9 +307,11 @@
                     {{ $appointment->provider->name }}
                 </h6>
 
+                @if($appointment->provider->expertise)
                 <div style="font-size: 13px; color: #64748b; text-align: center; margin-bottom: 16px;">
-                    {{ $appointment->provider->specialization }}
+                    <i class="bi bi-award me-1"></i>{{ $appointment->provider->expertise }}
                 </div>
+                @endif
 
                 <a href="{{ route('providers.show', $appointment->provider) }}" 
                    style="display: block; text-align: center; padding: 12px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; border-radius: 12px; font-weight: 600; text-decoration: none;">

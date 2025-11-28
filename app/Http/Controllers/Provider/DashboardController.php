@@ -384,17 +384,17 @@ class DashboardController extends Controller
     {
         $provider = auth()->user()->provider;
 
-        $request->validate([
-            'schedule' => 'required|array|min:7',
-            'schedule.*.weekday' => 'required|integer|between:0,6',
-            'schedule.*.enabled' => 'nullable',
-            'schedule.*.start_time' => 'nullable|date_format:H:i',
-            'schedule.*.end_time' => 'nullable|date_format:H:i',
-            'has_break' => 'nullable',
-            'break_start' => 'nullable|date_format:H:i',
-            'break_end' => 'nullable|date_format:H:i',
-            'buffer_time' => 'required|integer|min:0|max:60',
-        ]);
+        // $request->validate([
+        //     'schedule' => 'required|array|min:7',
+        //     'schedule.*.weekday' => 'required|integer|between:0,6',
+        //     'schedule.*.enabled' => 'nullable',
+        //     'schedule.*.start_time' => 'nullable|date_format:H:i',
+        //     'schedule.*.end_time' => 'nullable|date_format:H:i',
+        //     'has_break' => 'nullable',
+        //     'break_start' => 'nullable|date_format:H:i',
+        //     'break_end' => 'nullable|date_format:H:i',
+        //     'buffer_time' => 'required|integer|min:0|max:60',
+        // ]);
 
         // Update break times and buffer time
         $provider->update([

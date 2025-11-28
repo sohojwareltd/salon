@@ -79,6 +79,10 @@ Route::middleware(['auth', 'role:provider'])->prefix('provider-dashboard')->name
     Route::put('/settings/notifications', [App\Http\Controllers\Provider\DashboardController::class, 'updateNotifications'])->name('settings.notifications');
 });
 
+// PayPal Callback Routes (outside auth middleware for PayPal redirect)
+Route::get('/payment/paypal/success', [App\Http\Controllers\Customer\PaymentController::class, 'paypalSuccess'])->name('payment.paypal.success');
+Route::get('/payment/paypal/cancel', [App\Http\Controllers\Customer\PaymentController::class, 'paypalCancel'])->name('payment.paypal.cancel');
+
 // Customer Dashboard Routes
 Route::middleware(['auth', 'role:customer'])->prefix('customer-dashboard')->name('customer.')->group(function () {
     Route::get('/', [App\Http\Controllers\Customer\DashboardController::class, 'index'])->name('dashboard');
@@ -86,9 +90,10 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer-dashboard')->name
     Route::get('/booking/{appointment}/details', [App\Http\Controllers\Customer\DashboardController::class, 'bookingDetails'])->name('booking.details');
     Route::get('/payments', [App\Http\Controllers\Customer\DashboardController::class, 'payments'])->name('payments');
     
-    // Stripe Payment Routes
+    // Payment Routes
     Route::get('/payment/{appointment}', [App\Http\Controllers\Customer\PaymentController::class, 'show'])->name('payment.show');
     Route::post('/payment/{appointment}/checkout', [App\Http\Controllers\Customer\PaymentController::class, 'createCheckoutSession'])->name('payment.checkout');
+    Route::post('/payment/{appointment}/paypal', [App\Http\Controllers\Customer\PaymentController::class, 'createPayPalOrder'])->name('payment.paypal');
     Route::get('/payment/{appointment}/success', [App\Http\Controllers\Customer\PaymentController::class, 'success'])->name('payment.success');
     Route::get('/payment/{appointment}/cancel', [App\Http\Controllers\Customer\PaymentController::class, 'cancel'])->name('payment.cancel');
     
