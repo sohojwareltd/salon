@@ -39,11 +39,26 @@ class HomeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
+            'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
         
-        // In a real app, you would send an email or store the message
-        // For now, just redirect with success message
+        // Store contact form submission
+        $contact = \App\Models\Contact::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ]);
+        
+        // Send notification to admin
+        try {
+            $adminEmail = \App\Facades\Settings::get('email', config('mail.from.address'));
+            \Illuminate\Support\Facades\Notification::route('mail', $adminEmail)
+                ->notify(new \App\Notifications\ContactFormSubmitted($contact));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send contact notification: ' . $e->getMessage());
+        }
         
         return back()->with('success', 'Thank you for your message! We\'ll get back to you soon.');
     }

@@ -36,19 +36,19 @@ return [
     ],
 
     'stripe' => [
-        'key' => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
+        'key' => env('STRIPE_KEY') ?: \App\Facades\Settings::get('stripe_key'),
+        'secret' => env('STRIPE_SECRET') ?: \App\Facades\Settings::get('stripe_secret'),
     ],
 
     'paypal' => [
-        'mode' => env('PAYPAL_MODE', 'sandbox'), // sandbox or live
+        'mode' => env('PAYPAL_MODE') ?: \App\Facades\Settings::get('paypal_mode', 'sandbox'),
         'sandbox' => [
-            'client_id' => env('PAYPAL_SANDBOX_CLIENT_ID'),
-            'client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET'),
+            'client_id' => env('PAYPAL_SANDBOX_CLIENT_ID') ?: \App\Facades\Settings::get('paypal_sandbox_client_id'),
+            'client_secret' => env('PAYPAL_SANDBOX_CLIENT_SECRET') ?: \App\Facades\Settings::get('paypal_sandbox_client_secret'),
         ],
         'live' => [
-            'client_id' => env('PAYPAL_LIVE_CLIENT_ID'),
-            'client_secret' => env('PAYPAL_LIVE_CLIENT_SECRET'),
+            'client_id' => env('PAYPAL_LIVE_CLIENT_ID') ?: \App\Facades\Settings::get('paypal_live_client_id'),
+            'client_secret' => env('PAYPAL_LIVE_CLIENT_SECRET') ?: \App\Facades\Settings::get('paypal_live_client_secret'),
         ],
     ],
 

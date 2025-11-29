@@ -19,6 +19,11 @@
     @if(App\Facades\Settings::get('header_logo'))
         <meta property="og:image" content="{{ Storage::url(App\Facades\Settings::get('header_logo')) }}">
     @endif
+    
+    <!-- Favicon -->
+    @if(App\Facades\Settings::get('favicon'))
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . App\Facades\Settings::get('favicon')) }}">
+    @endif
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

@@ -5,7 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Saloon') }} - @yield('title', 'Welcome')</title>
+    <title>{{ App\Facades\Settings::get('site_name', config('app.name', 'Saloon')) }} - @yield('title', 'Welcome')</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@yield('description', App\Facades\Settings::get('meta_description', 'Professional salon booking and management system'))">
+    <meta name="keywords" content="@yield('keywords', App\Facades\Settings::get('meta_keywords', 'salon, booking, appointment, beauty'))">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="@yield('title', App\Facades\Settings::get('meta_title', config('app.name')))">
+    <meta property="og:description" content="@yield('description', App\Facades\Settings::get('meta_description'))">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    @if(App\Facades\Settings::get('header_logo'))
+        <meta property="og:image" content="{{ asset('storage/' . App\Facades\Settings::get('header_logo')) }}">
+    @endif
+    
+    <!-- Favicon -->
+    @if(App\Facades\Settings::get('favicon'))
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . App\Facades\Settings::get('favicon')) }}">
+    @endif
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <!-- Premium Theme CSS -->
@@ -24,27 +43,36 @@
         <div class="header-container">
             <!-- Logo -->
             <a href="{{ route('home') }}" class="header-logo">
-                <div class="logo-icon">
-                    <i class="bi bi-scissors"></i>
-                </div>
-                <span>{{ config('app.name', 'Saloon') }}</span>
+                @if(App\Facades\Settings::get('header_logo'))
+                    <img src="{{ asset('storage/' . App\Facades\Settings::get('header_logo')) }}" alt="{{ App\Facades\Settings::get('site_name', config('app.name')) }}" style="height: 100px;">
+                @else
+                    <div class="logo-icon">
+                        <i class="bi bi-scissors"></i>
+                    </div>
+                    <span>{{ App\Facades\Settings::get('site_name', config('app.name', 'Saloon')) }}</span>
+                @endif
             </a>
 
             <!-- Navigation -->
             <nav class="header-nav" id="mainNav">
-                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
-                    Home
-                </a>
-                <a href="{{ route('services.index') }}" class="nav-link {{ request()->routeIs('services.*') ? 'active' : '' }}">
-                    Services
-                </a>
-                <a href="{{ route('providers.index') }}" class="nav-link {{ request()->routeIs('providers.*') ? 'active' : '' }}">
-                    Providers
-                </a>
-        
-                <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">
-                    Contact
-                </a>
+                @php
+                    $mainMenu = App\Models\Menu::where('location', 'header')
+                        ->where('is_active', true)
+                        ->with('activeItems')
+                        ->first();
+                @endphp
+                @if($mainMenu)
+                    @foreach($mainMenu->activeItems as $menuItem)
+                        <a href="{{ $menuItem->url }}" 
+                           class="nav-link {{ request()->is(ltrim($menuItem->url, '/')) ? 'active' : '' }}"
+                           target="{{ $menuItem->target }}">
+                            @if($menuItem->icon)
+                                <i class="{{ $menuItem->icon }}"></i>
+                            @endif
+                            {{ $menuItem->label }}
+                        </a>
+                    @endforeach
+                @endif
             </nav>
          
 
@@ -102,66 +130,140 @@
                     <!-- Brand Column -->
                     <div class="footer-brand">
                         <div>
-                            <h3 class="footer-logo">{{ config('app.name', 'Saloon') }}</h3>
+                            @if(App\Facades\Settings::get('footer_logo'))
+                                <img src="{{ asset('storage/' . App\Facades\Settings::get('footer_logo')) }}" alt="{{ App\Facades\Settings::get('site_name') }}" style="height: 110px; margin-bottom: 1rem;">
+                            @else
+                                <h3 class="footer-logo">{{ App\Facades\Settings::get('site_name', config('app.name', 'Saloon')) }}</h3>
+                            @endif
                             <p class="footer-description">
                                 Your premier multi-vendor marketplace connecting customers with the finest salons, barbers, and beauty professionals. Experience luxury grooming at your fingertips.
                             </p>
+                            @if(App\Facades\Settings::get('address'))
+                                <p class="footer-description" style="margin-top: 1rem;">
+                                    <i class="bi bi-geo-alt"></i> {{ App\Facades\Settings::get('address') }}
+                                </p>
+                            @endif
+                            @if(App\Facades\Settings::get('phone'))
+                                <p class="footer-description">
+                                    <i class="bi bi-telephone"></i> {{ App\Facades\Settings::get('phone') }}
+                                </p>
+                            @endif
+                            @if(App\Facades\Settings::get('email'))
+                                <p class="footer-description">
+                                    <i class="bi bi-envelope"></i> {{ App\Facades\Settings::get('email') }}
+                                </p>
+                            @endif
                         </div>
+                        @if(App\Facades\Settings::get('facebook_url') || App\Facades\Settings::get('instagram_url') || App\Facades\Settings::get('twitter_url') || App\Facades\Settings::get('linkedin_url') || App\Facades\Settings::get('youtube_url'))
                         <div class="footer-social">
-                            <a href="#" class="social-link" aria-label="Facebook">
-                                <i class="bi bi-facebook"></i>
-                            </a>
-                            <a href="#" class="social-link" aria-label="Instagram">
-                                <i class="bi bi-instagram"></i>
-                            </a>
-                            <a href="#" class="social-link" aria-label="Twitter">
-                                <i class="bi bi-twitter"></i>
-                            </a>
-                            <a href="#" class="social-link" aria-label="LinkedIn">
-                                <i class="bi bi-linkedin"></i>
-                            </a>
-                            <a href="#" class="social-link" aria-label="YouTube">
-                                <i class="bi bi-youtube"></i>
-                            </a>
+                            @if(App\Facades\Settings::get('facebook_url'))
+                                <a href="{{ App\Facades\Settings::get('facebook_url') }}" target="_blank" class="social-link" aria-label="Facebook">
+                                    <i class="bi bi-facebook"></i>
+                                </a>
+                            @endif
+                            @if(App\Facades\Settings::get('instagram_url'))
+                                <a href="{{ App\Facades\Settings::get('instagram_url') }}" target="_blank" class="social-link" aria-label="Instagram">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                            @endif
+                            @if(App\Facades\Settings::get('twitter_url'))
+                                <a href="{{ App\Facades\Settings::get('twitter_url') }}" target="_blank" class="social-link" aria-label="Twitter">
+                                    <i class="bi bi-twitter"></i>
+                                </a>
+                            @endif
+                            @if(App\Facades\Settings::get('linkedin_url'))
+                                <a href="{{ App\Facades\Settings::get('linkedin_url') }}" target="_blank" class="social-link" aria-label="LinkedIn">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                            @endif
+                            @if(App\Facades\Settings::get('youtube_url'))
+                                <a href="{{ App\Facades\Settings::get('youtube_url') }}" target="_blank" class="social-link" aria-label="YouTube">
+                                    <i class="bi bi-youtube"></i>
+                                </a>
+                            @endif
                         </div>
+                        @endif
                     </div>
 
-                    <!-- Quick Links -->
+                    <!-- Footer Menu 1 -->
                     <div class="footer-section">
-                        <h4>Quick Links</h4>
-                        <ul class="footer-links">
-                            <li><a href="{{ route('home') }}">Home</a></li>
-                            <li><a href="{{ route('providers.index') }}">Browse Providers</a></li>
-                            <li><a href="{{ route('about') }}">About Us</a></li>
-                            <li><a href="#services">Our Services</a></li>
-                            <li><a href="#products">Products</a></li>
-                            <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                        </ul>
+                        @php
+                            $footerMenu1 = App\Models\Menu::where('location', 'footer_1')
+                                ->where('is_active', true)
+                                ->with('activeItems')
+                                ->first();
+                        @endphp
+                        @if($footerMenu1)
+                            <h4>{{ $footerMenu1->title }}</h4>
+                            <ul class="footer-links">
+                                @foreach($footerMenu1->activeItems as $menuItem)
+                                    <li>
+                                        <a href="{{ $menuItem->url }}" target="{{ $menuItem->target }}">
+                                            @if($menuItem->icon)
+                                                <i class="{{ $menuItem->icon }}"></i>
+                                            @endif
+                                            {{ $menuItem->label }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
 
-                    <!-- For Vendors -->
+                    <!-- Footer Menu 2 -->
                     <div class="footer-section">
-                        <h4>For Vendors</h4>
-                        <ul class="footer-links">
-                            <li><a href="#become-barber">Become a Barber</a></li>
-                            <li><a href="#vendor-benefits">Vendor Benefits</a></li>
-                            <li><a href="#pricing">Pricing Plans</a></li>
-                            <li><a href="#resources">Resources</a></li>
-                            <li><a href="#support">Vendor Support</a></li>
-                        </ul>
+                        @php
+                            $footerMenu2 = App\Models\Menu::where('location', 'footer_2')
+                                ->where('is_active', true)
+                                ->with('activeItems')
+                                ->first();
+                        @endphp
+                        @if($footerMenu2)
+                            <h4>{{ $footerMenu2->title }}</h4>
+                            <ul class="footer-links">
+                                @foreach($footerMenu2->activeItems as $menuItem)
+                                    <li>
+                                        <a href="{{ $menuItem->url }}" target="{{ $menuItem->target }}">
+                                            @if($menuItem->icon)
+                                                <i class="{{ $menuItem->icon }}"></i>
+                                            @endif
+                                            {{ $menuItem->label }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                                <li>
+                                    <a href="{{ route('faqs.index') }}">
+                                        <i class="fas fa-question-circle"></i>
+                                        FAQs
+                                    </a>
+                                </li>
+                            </ul>
+                        @endif
                     </div>
 
-                    <!-- Legal & Support -->
+                    <!-- Footer Menu 3 -->
                     <div class="footer-section">
-                        <h4>Support</h4>
-                        <ul class="footer-links">
-                            <li><a href="#help-center">Help Center</a></li>
-                            <li><a href="#privacy">Privacy Policy</a></li>
-                            <li><a href="#terms">Terms of Service</a></li>
-                            <li><a href="#refund">Refund Policy</a></li>
-                            <li><a href="#faq">FAQs</a></li>
-                            <li><a href="#careers">Careers</a></li>
-                        </ul>
+                        @php
+                            $footerMenu3 = App\Models\Menu::where('location', 'footer_3')
+                                ->where('is_active', true)
+                                ->with('activeItems')
+                                ->first();
+                        @endphp
+                        @if($footerMenu3)
+                            <h4>{{ $footerMenu3->title }}</h4>
+                            <ul class="footer-links">
+                                @foreach($footerMenu3->activeItems as $menuItem)
+                                    <li>
+                                        <a href="{{ $menuItem->url }}" target="{{ $menuItem->target }}">
+                                            @if($menuItem->icon)
+                                                <i class="{{ $menuItem->icon }}"></i>
+                                            @endif
+                                            {{ $menuItem->label }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </div>
 
                     <!-- Newsletter -->
@@ -193,7 +295,7 @@
             <div class="footer-container">
                 <div class="footer-bottom-content">
                     <p class="footer-copyright">
-                        &copy; {{ date('Y') }} {{ config('app.name', 'Saloon') }}. All rights reserved. Premium Multi-Vendor Marketplace.
+                        &copy; {{ date('Y') }} {{ App\Facades\Settings::get('company_name', config('app.name', 'Saloon')) }}. All rights reserved. Premium Multi-Vendor Marketplace.
                     </p>
                     <ul class="footer-links-inline">
                         <li><a href="#privacy">Privacy</a></li>

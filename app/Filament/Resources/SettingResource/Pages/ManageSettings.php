@@ -64,7 +64,16 @@ class ManageSettings extends Page
 
     protected function getFormSchema(): array
     {
-        $settings = Setting::all()->groupBy('group');
+        // Exclude menu-related settings (now managed via Menu resource)
+        $settings = Setting::whereNotIn('key', [
+            'main_menu',
+            'footer_menu_1',
+            'footer_menu_2', 
+            'footer_menu_3',
+            'footer_menu_1_title',
+            'footer_menu_2_title',
+            'footer_menu_3_title'
+        ])->get()->groupBy('group');
         
         $tabs = [];
         
@@ -73,12 +82,13 @@ class ManageSettings extends Page
             
             foreach ($groupSettings as $setting) {
                 // Special handling for specific fields
-                if (in_array($setting->key, ['header_logo', 'footer_logo'])) {
+                if (in_array($setting->key, ['header_logo', 'footer_logo', 'favicon'])) {
                     $field = Forms\Components\FileUpload::make($setting->key)
                         ->label(ucwords(str_replace('_', ' ', $setting->key)))
                         ->image()
-                        ->directory('logos')
-                        ->visibility('public');
+                        ->directory($setting->key === 'favicon' ? 'favicons' : 'logos')
+                        ->visibility('public')
+                        ->helperText($setting->key === 'favicon' ? 'Upload favicon (16x16 or 32x32 px recommended)' : null);
                 } elseif ($setting->key === 'opening_schedule') {
                     $field = Forms\Components\Repeater::make($setting->key)
                         ->label('Opening Schedule')
@@ -109,7 +119,41 @@ class ManageSettings extends Page
                         ->defaultItems(0)
                         ->columns(4)
                         ->columnSpanFull();
-                } elseif (in_array($setting->key, ['address', 'meta_description'])) {
+                } elseif ($setting->key === 'about_salon_description') {
+                    $field = Forms\Components\RichEditor::make($setting->key)
+                        ->label('About Salon Description')
+                        ->toolbarButtons([
+                            'bold',
+                            'italic',
+                            'underline',
+                            'strike',
+                            'link',
+                            'h2',
+                            'h3',
+                            'bulletList',
+                            'orderedList',
+                            'blockquote',
+                        ])
+                        ->columnSpanFull();
+                } elseif ($setting->key === 'about_salon_image') {
+                    $field = Forms\Components\FileUpload::make($setting->key)
+                        ->label('About Salon Image')
+                        ->image()
+                        ->directory('about')
+                        ->visibility('public')
+                        ->maxSize(2048)
+                        ->helperText('Upload image for about section (recommended: 600x400px)')
+                        ->columnSpanFull();
+                } elseif ($setting->key === 'hero_image') {
+                    $field = Forms\Components\FileUpload::make($setting->key)
+                        ->label('Hero Background Image')
+                        ->image()
+                        ->directory('hero')
+                        ->visibility('public')
+                        ->maxSize(2048)
+                        ->helperText('Upload hero background image (recommended: 1600x900px)')
+                        ->columnSpanFull();
+                } elseif (in_array($setting->key, ['address', 'meta_description', 'feature_1_description', 'feature_2_description', 'feature_3_description', 'cta_description'])) {
                     $field = Forms\Components\Textarea::make($setting->key)
                         ->label(ucwords(str_replace('_', ' ', $setting->key)))
                         ->rows(3);
