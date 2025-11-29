@@ -20,7 +20,9 @@ class ServiceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = '; php artisan make:filament-resource Service; php artisan make:filament-resource Appointment; php artisan make:filament-resource Payment; php artisan make:filament-resource Review';
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {

@@ -18,12 +18,17 @@ class ProvidersTable
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('salon.name')
+                TextColumn::make('user.email')
+                    ->label('User Email')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
+                    ->label('Contact Email')
                     ->searchable(),
-                TextColumn::make('expertise'),
+                TextColumn::make('phone')
+                    ->searchable(),
+                TextColumn::make('expertise')
+                    ->limit(30),
                 TextColumn::make('average_rating')
                     ->numeric(decimalPlaces: 1)
                     ->sortable(),

@@ -21,7 +21,8 @@ class ServicesTable
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('category')
+                TextColumn::make('category.name')
+                    ->label('Category')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('duration')

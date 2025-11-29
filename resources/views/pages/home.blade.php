@@ -75,6 +75,52 @@
 </section>
 
 <!-- Premium Services Section -->
+@if($services->count() > 0)
+<section class="section-light">
+    <div class="container">
+        <div class="section-header animate-fadeInUp">
+            <h2 class="section-title">Popular Services</h2>
+            <p class="section-subtitle">Professional grooming services tailored to your style</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            @foreach($services as $service)
+                <div class="col-12 col-sm-6 col-lg-4 mb-4 animate-fadeInUp" style="animation-delay: {{ $loop->index * 0.1 }}s;">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            @if($service->category === 'haircut')
+                                <i class="bi bi-scissors"></i>
+                            @elseif($service->category === 'shaving')
+                                <i class="bi bi-emoji-smile"></i>
+                            @elseif($service->category === 'beard')
+                                <i class="bi bi-person"></i>
+                            @elseif($service->category === 'facial')
+                                <i class="bi bi-stars"></i>
+                            @elseif($service->category === 'massage')
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            @else
+                                <i class="bi bi-star"></i>
+                            @endif
+                        </div>
+                        <h3 class="service-name">{{ $service->name }}</h3>
+                        <p class="service-price">{{  Settings::formatPrice($service->price) }}</p>
+                        <p class="service-description">{{ Illuminate\Support\Str::limit($service->description, 80) }}</p>
+                        <div class="service-meta">
+                            <span><i class="bi bi-clock"></i> {{ $service->duration }} min</span>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        
+        <div class="text-center mt-4 animate-fadeInUp">
+            <a href="{{ route('providers.index') }}" class="btn btn-primary btn-lg">
+                <i class="bi bi-grid"></i> View All Services
+            </a>
+        </div>
+    </div>
+</section>
+@endif
 
 <!-- Top Rated Providers Section -->
 @if($topProviders->count() > 0)
@@ -164,8 +210,8 @@
     }
     
     .provider-slide {
-        flex: 0 0 calc(25% - 1.125rem);
-        min-width: calc(25% - 1.125rem);
+        flex: 0 0 calc(16.666% - 1.25rem);
+        min-width: calc(16.666% - 1.25rem);
     }
     
     .provider-slide-card {
@@ -375,6 +421,13 @@
         transform: scale(1.3);
     }
     
+    @media (max-width: 1400px) {
+        .provider-slide {
+            flex: 0 0 calc(25% - 1.125rem);
+            min-width: calc(25% - 1.125rem);
+        }
+    }
+    
     @media (max-width: 1200px) {
         .provider-slide {
             flex: 0 0 calc(33.333% - 1rem);
@@ -413,15 +466,19 @@
 
 <script>
     let currentSlide = 0;
-    let slidesPerView = 3;
+    let slidesPerView = 6;
     
     function updateSlidesPerView() {
         if (window.innerWidth <= 576) {
             slidesPerView = 1;
-        } else if (window.innerWidth <= 992) {
+        } else if (window.innerWidth <= 768) {
             slidesPerView = 2;
-        } else {
+        } else if (window.innerWidth <= 1200) {
             slidesPerView = 3;
+        } else if (window.innerWidth <= 1400) {
+            slidesPerView = 4;
+        } else {
+            slidesPerView = 6;
         }
     }
     

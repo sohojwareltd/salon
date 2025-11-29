@@ -10,6 +10,7 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
+        'category_id',
         'name',
         'description',
         'duration',
@@ -23,6 +24,14 @@ class Service extends Model
         'price' => 'decimal:2',
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the category for the service
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     /**
      * The providers that offer this service.

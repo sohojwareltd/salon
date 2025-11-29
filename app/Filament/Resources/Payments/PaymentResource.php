@@ -20,7 +20,7 @@ class PaymentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = '; no; ; no';
+    protected static ?string $recordTitleAttribute = 'transaction_id';
 
     public static function form(Schema $schema): Schema
     {

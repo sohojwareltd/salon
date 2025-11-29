@@ -4,8 +4,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="{{ route('home') }}" class="text-2xl font-bold text-indigo-600">
-                        💇 {{ config('app.name', 'Salon Booking') }}
+                    <a href="{{ route('home') }}" class="flex items-center">
+                        @if(App\Facades\Settings::get('header_logo'))
+                            <img src="{{ Storage::url(App\Facades\Settings::get('header_logo')) }}" alt="{{ App\Facades\Settings::get('site_name', config('app.name')) }}" class="h-10">
+                        @else
+                            <span class="text-2xl font-bold text-indigo-600">
+                                💇 {{ App\Facades\Settings::get('site_name', config('app.name', 'Salon Booking')) }}
+                            </span>
+                        @endif
                     </a>
                 </div>
 

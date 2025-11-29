@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
+use App\Models\Category;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Grid;
@@ -18,12 +20,26 @@ class ServiceForm
             ->components([
                 Section::make('Service Information')
                     ->schema([
-                        TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        TextInput::make('category')
-                            ->required()
-                            ->maxLength(255),
+                        Grid::make(2)
+                            ->schema([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Select::make('category_id')
+                                    ->label('Category')
+                                    ->relationship('category', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->required()
+                                    ->createOptionForm([
+                                        TextInput::make('name')
+                                            ->required()
+                                            ->maxLength(255),
+                                        TextInput::make('slug')
+                                            ->required()
+                                            ->maxLength(255),
+                                    ]),
+                            ]),
                         Textarea::make('description')
                             ->rows(3),
                         FileUpload::make('image')
