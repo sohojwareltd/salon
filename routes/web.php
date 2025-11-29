@@ -141,4 +141,4 @@ Route::get('test-logout', function () {
 Route::get('/page/{slug}', [App\Http\Controllers\PageController::class, 'show'])->name('page.show');
 
 // FAQs
-Route::get('/faqs', [App\Http\Controllers\FaqController::class, 'index'])->name('faqs.index');
+Route::get('/faq', [App\Http\Controllers\FaqController::class, 'index'])->name('faqs.index');

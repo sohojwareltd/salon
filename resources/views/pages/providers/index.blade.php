@@ -126,18 +126,21 @@
     ======================================== */
     .providers-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
         animation: fadeInUp 0.8s ease-out 0.4s both;
     }
 
     .provider-card {
         background: var(--white);
-        border-radius: var(--radius-2xl);
+        border-radius: var(--radius-xl);
         overflow: hidden;
         border: 2px solid var(--gray-100);
         transition: all 0.3s ease;
         position: relative;
+        max-width: 350px;
+        margin: 0 auto;
+        width: 100%;
     }
 
     .provider-card::before {
@@ -164,37 +167,37 @@
     }
 
     .provider-header {
-        padding: 2rem;
+        padding: 1.5rem 1.5rem 1rem;
         text-align: center;
         background: linear-gradient(135deg, rgba(9, 18, 44, 0.03) 0%, rgba(190, 49, 68, 0.03) 100%);
     }
 
     .provider-avatar-wrapper {
-        width: 120px;
-        height: 120px;
-        margin: 0 auto 1.5rem;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1rem;
         position: relative;
     }
 
     .provider-avatar {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         object-fit: cover;
-        border: 4px solid var(--white);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        border: 3px solid var(--white);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
     .provider-status {
         position: absolute;
-        bottom: 5px;
-        right: 5px;
-        width: 24px;
-        height: 24px;
+        bottom: 2px;
+        right: 2px;
+        width: 18px;
+        height: 18px;
         background: var(--success);
-        border: 3px solid var(--white);
+        border: 2px solid var(--white);
         border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
     .provider-status.inactive {
@@ -202,21 +205,22 @@
     }
 
     .provider-name {
-        font-size: 1.75rem;
+        font-size: 1.25rem;
         font-weight: 700;
         font-family: var(--font-heading);
         color: var(--primary-dark);
         margin-bottom: 0.5rem;
+        line-height: 1.3;
     }
 
     .provider-salon {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.375rem;
         color: var(--gray-600);
-        font-size: 1rem;
-        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
     }
 
     .provider-salon i {
@@ -227,72 +231,29 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
-        font-size: 1.125rem;
+        gap: 0.375rem;
+        font-size: 0.9375rem;
         font-weight: 600;
         color: var(--primary-dark);
     }
 
     .provider-rating i {
         color: #FFC107;
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 
     .provider-body {
-        padding: 2rem;
-    }
-
-    .provider-expertise {
-        margin-bottom: 1.5rem;
-    }
-
-    .provider-expertise-label {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--gray-500);
-        margin-bottom: 0.75rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .provider-expertise-label i {
-        color: var(--primary-2);
-    }
-
-    .expertise-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .expertise-tag {
-        padding: 0.5rem 1rem;
-        background: var(--gray-100);
-        border-radius: var(--radius-lg);
-        font-size: 0.875rem;
-        color: var(--gray-700);
-        font-weight: 500;
-    }
-
-    .provider-bio {
-        color: var(--gray-600);
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        padding: 1.25rem 1.5rem 1.5rem;
     }
 
     .provider-stats {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        padding: 1.5rem 0;
-        border-top: 2px solid var(--gray-100);
-        border-bottom: 2px solid var(--gray-100);
-        margin-bottom: 1.5rem;
+        gap: 0.75rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--gray-100);
+        border-bottom: 1px solid var(--gray-100);
+        margin-bottom: 1rem;
     }
 
     .provider-stat {
@@ -300,67 +261,28 @@
     }
 
     .provider-stat-value {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 700;
         color: var(--primary-2);
         font-family: var(--font-heading);
     }
 
     .provider-stat-label {
-        font-size: 0.75rem;
+        font-size: 0.6875rem;
         color: var(--gray-500);
-        margin-top: 0.25rem;
+        margin-top: 0.125rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .provider-reviews-preview {
-        margin-bottom: 1.5rem;
-    }
-
-    .review-preview {
-        background: var(--gray-50);
-        border-radius: var(--radius-lg);
-        padding: 1rem;
-        border-left: 3px solid var(--primary-2);
-    }
-
-    .review-preview-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-    }
-
-    .review-preview-author {
-        font-weight: 600;
-        color: var(--primary-dark);
-        font-size: 0.9375rem;
-    }
-
-    .review-preview-rating {
-        color: #FFC107;
-        font-size: 0.875rem;
-    }
-
-    .review-preview-text {
-        color: var(--gray-600);
-        font-size: 0.875rem;
-        line-height: 1.5;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        letter-spacing: 0.3px;
     }
 
     .btn-view-provider {
         width: 100%;
-        padding: 1rem 2rem;
+        padding: 0.875rem 1.5rem;
         background: var(--gradient-primary);
         color: var(--white);
         border: none;
-        border-radius: var(--radius-xl);
-        font-size: 1rem;
+        border-radius: var(--radius-lg);
+        font-size: 0.9375rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -623,24 +545,6 @@
                     </div>
 
                     <div class="provider-body">
-                        @if($provider->expertise)
-                            <div class="provider-expertise">
-                                <div class="provider-expertise-label">
-                                    <i class="bi bi-award"></i>
-                                    Expertise:
-                                </div>
-                                <div class="expertise-tags">
-                                    @foreach(explode(',', $provider->expertise) as $skill)
-                                        <span class="expertise-tag">{{ trim($skill) }}</span>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($provider->bio)
-                            <p class="provider-bio">{{ $provider->bio }}</p>
-                        @endif
-
                         <div class="provider-stats">
                             <div class="provider-stat">
                                 <div class="provider-stat-value">{{ $provider->services->count() }}</div>
@@ -655,29 +559,6 @@
                                 <div class="provider-stat-label">Reviews</div>
                             </div>
                         </div>
-
-                        @if($provider->reviews->count() > 0)
-                            <div class="provider-reviews-preview">
-                                @php
-                                    $latestReview = $provider->reviews->sortByDesc('created_at')->first();
-                                @endphp
-                                <div class="review-preview">
-                                    <div class="review-preview-header">
-                                        <span class="review-preview-author">{{ $latestReview->user->name }}</span>
-                                        <span class="review-preview-rating">
-                                            @for($i = 0; $i < 5; $i++)
-                                                @if($i < $latestReview->rating)
-                                                    ★
-                                                @else
-                                                    ☆
-                                                @endif
-                                            @endfor
-                                        </span>
-                                    </div>
-                                    <p class="review-preview-text">"{{ $latestReview->comment }}"</p>
-                                </div>
-                            </div>
-                        @endif
 
                         <a href="{{ route('providers.show', $provider) }}" class="btn-view-provider">
                             <span>View Profile & Book</span>

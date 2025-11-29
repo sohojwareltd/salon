@@ -115,18 +115,21 @@
     ======================================== */
     .services-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
         animation: fadeInUp 0.8s ease-out 0.4s both;
     }
 
     .service-card {
         background: var(--white);
-        border-radius: var(--radius-2xl);
+        border-radius: var(--radius-xl);
         overflow: hidden;
         border: 2px solid var(--gray-100);
         transition: all 0.3s ease;
         position: relative;
+        max-width: 350px;
+        margin: 0 auto;
+        width: 100%;
     }
 
     .service-card::before {
@@ -154,7 +157,7 @@
 
     .service-image {
         width: 100%;
-        height: 240px;
+        height: 180px;
         object-fit: cover;
         transition: transform 0.5s ease;
     }
@@ -171,40 +174,41 @@
 
     .service-category-badge {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0.75rem;
+        right: 0.75rem;
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
-        padding: 0.5rem 1rem;
+        padding: 0.375rem 0.75rem;
         border-radius: var(--radius-lg);
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 600;
         color: var(--primary-2);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .service-content {
-        padding: 2rem;
+        padding: 1.25rem 1.5rem 1.5rem;
     }
 
     .service-header {
         display: flex;
         justify-content: space-between;
         align-items: start;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
     }
 
     .service-title {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 700;
         font-family: var(--font-heading);
         color: var(--primary-dark);
         margin: 0;
         flex: 1;
+        line-height: 1.3;
     }
 
     .service-price {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 700;
         color: var(--primary-2);
         font-family: var(--font-heading);
@@ -212,8 +216,9 @@
 
     .service-description {
         color: var(--gray-600);
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -222,37 +227,37 @@
 
     .service-meta {
         display: flex;
-        gap: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 2px solid var(--gray-100);
-        margin-bottom: 1.5rem;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--gray-100);
+        margin-bottom: 1rem;
     }
 
     .service-meta-item {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.375rem;
         color: var(--gray-600);
-        font-size: 0.9375rem;
+        font-size: 0.875rem;
     }
 
     .service-meta-item i {
         color: var(--primary-2);
-        font-size: 1.125rem;
+        font-size: 1rem;
     }
 
     .service-providers {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .service-providers-label {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 600;
         color: var(--gray-500);
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.375rem;
     }
 
     .service-providers-label i {
@@ -262,30 +267,13 @@
     .providers-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
-    }
-
-    .provider-tag {
-        display: inline-flex;
-        align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        background: var(--gray-100);
-        border-radius: var(--radius-lg);
-        font-size: 0.875rem;
-        color: var(--gray-700);
-        transition: all 0.3s ease;
-    }
-
-    .provider-tag:hover {
-        background: var(--primary-2);
-        color: var(--white);
-        transform: translateY(-2px);
+        align-items: center;
     }
 
     .provider-avatar {
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         background: var(--gradient-coral);
         color: var(--white);
@@ -294,16 +282,27 @@
         justify-content: center;
         font-size: 0.75rem;
         font-weight: 600;
+        border: 2px solid var(--white);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .provider-avatar:hover {
+        transform: translateY(-2px) scale(1.1);
+        box-shadow: 0 4px 12px rgba(190, 49, 68, 0.3);
+        border-color: var(--primary-2);
     }
 
     .btn-book-service {
         width: 100%;
-        padding: 1rem 2rem;
+        padding: 0.875rem 1.5rem;
         background: var(--gradient-primary);
         color: var(--white);
         border: none;
-        border-radius: var(--radius-xl);
-        font-size: 1rem;
+        border-radius: var(--radius-lg);
+        font-size: 0.9375rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -540,7 +539,7 @@
         </div>
 
         <!-- Services Grid -->
-        <div class="services-grid">
+        <div class="services-grid my-5">
             @forelse($services as $service)
                 <div class="service-card" data-category="{{ strtolower($service->category) }}">
                     <div class="service-image-wrapper">
@@ -580,24 +579,18 @@
                                     Available Providers:
                                 </div>
                                 <div class="providers-list">
-                                    @foreach($service->providers->take(3) as $provider)
-                                        <a href="{{ route('providers.show', $provider) }}" class="provider-tag">
-                                            <div class="provider-avatar">
-                                                @if($provider->photo)
-                                                    <img src="{{ asset('storage/' . $provider->photo) }}" alt="{{ $provider->name }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                                                @else
-                                                    {{ strtoupper(substr($provider->name, 0, 2)) }}
-                                                @endif
-                                            </div>
-                                            <span>{{ $provider->name }}</span>
+                                    @foreach($service->providers->take(4) as $provider)
+                                        <a href="{{ route('providers.show', $provider) }}" class="provider-avatar" title="{{ $provider->name }}">
+                                            @if($provider->photo)
+                                                <img src="{{ asset('storage/' . $provider->photo) }}" alt="{{ $provider->name }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                            @else
+                                                {{ strtoupper(substr($provider->name, 0, 2)) }}
+                                            @endif
                                         </a>
                                     @endforeach
-                                    @if($service->providers->count() > 3)
-                                        <div class="provider-tag" style="opacity: 0.6; cursor: default;">
-                                            <div class="provider-avatar" style="background: var(--gray-200);">
-                                                +
-                                            </div>
-                                            <span>+{{ $service->providers->count() - 3 }} more</span>
+                                    @if($service->providers->count() > 4)
+                                        <div class="provider-avatar" style="background: var(--gray-400); color: var(--white); cursor: default;" title="+{{ $service->providers->count() - 4 }} more providers">
+                                            +{{ $service->providers->count() - 4 }}
                                         </div>
                                     @endif
                                 </div>
