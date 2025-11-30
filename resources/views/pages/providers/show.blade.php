@@ -841,7 +841,7 @@
                                     <i class="bi bi-scissors"></i>
                                 </div>
                                 <h3 class="service-name">{{ $service->name }}</h3>
-                                <p class="service-price">{{ Settings::formatPrice($service->price, false) }}</p>
+                                <p class="service-price">{{ App\Facades\Settings::formatPrice($service->price, false) }}</p>
                                 <div class="service-duration">
                                     <i class="bi bi-clock"></i>
                                     <span>{{ $service->duration ?? '30' }} mins</span>

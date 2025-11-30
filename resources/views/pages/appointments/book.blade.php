@@ -364,7 +364,7 @@
                                                             <span><i class="bi bi-clock-fill"></i> {{ $service->duration }}
                                                                 min</span>
                                                             <span><i class="bi bi-cash"></i>
-                                                                {{ Settings::formatPrice($service->price, false) }}</span>
+                                                                {{ App\Facades\Settings::formatPrice($service->price, false) }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -424,7 +424,7 @@
                                                     <div style="font-size: 18px; font-weight: 700; color: #065f46;">
                                                         <i class="bi bi-currency-dollar me-1"
                                                             style="font-size: 16px;"></i>
-                                                        {{ Settings::currency() }}<span
+                                                        {{ App\Facades\Settings::currency() }}<span
                                                             x-text="totalPrice.toLocaleString()"></span>
                                                     </div>
                                                 </div>

@@ -108,7 +108,7 @@
             <div class="stat-label">Completed Services</div>
             <div class="stat-value">{{ $stats['completed_appointments'] }}</div>
             <div class="stat-badge" style="background: #d1fae5; color: #065f46;">
-                <i class="bi bi-currency-dollar me-1"></i>{{ Settings::formatPrice($stats['total_spent'], false) }}
+                <i class="bi bi-currency-dollar me-1"></i>{{ App\Facades\Settings::formatPrice($stats['total_spent'], false) }}
             </div>
         </div>
     </div>
@@ -122,7 +122,7 @@
             <div class="stat-label">Pending Payments</div>
             <div class="stat-value">{{ $stats['pending_payments'] }}</div>
             <div class="stat-badge" style="background: #fee2e2; color: #991b1b;">
-                <i class="bi bi-exclamation-triangle me-1"></i>{{ Settings::formatPrice($stats['pending_payments_amount'], false) }}
+                <i class="bi bi-exclamation-triangle me-1"></i>{{ App\Facades\Settings::formatPrice($stats['pending_payments_amount'], false) }}
             </div>
         </div>
     </div>
@@ -175,7 +175,7 @@
                 You have {{ $stats['pending_payments'] }} pending payment(s)
             </h5>
             <p style="color: #b91c1c; margin-bottom: 20px;">
-                Total amount due: <strong>{{ Settings::formatPrice($stats['pending_payments_amount']) }}</strong>. Please complete your payments to avoid service interruption.
+                Total amount due: <strong>{{ App\Facades\Settings::formatPrice($stats['pending_payments_amount']) }}</strong>. Please complete your payments to avoid service interruption.
             </p>
             @if($needsPayment->count() > 0)
             <div>

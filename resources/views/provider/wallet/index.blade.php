@@ -320,7 +320,7 @@
             <i class="bi bi-wallet2"></i>
         </div>
         <div class="summary-label">Current Balance</div>
-        <div class="summary-value">{{ Settings::formatPrice($summary['current_balance'] ?? 0, false) }}</div>
+        <div class="summary-value">{{ App\Facades\Settings::formatPrice($summary['current_balance'] ?? 0, false) }}</div>
         <div class="summary-detail">Available to withdraw</div>
     </div>
     
@@ -329,7 +329,7 @@
             <i class="bi bi-graph-up-arrow"></i>
         </div>
         <div class="summary-label">Total Earnings</div>
-        <div class="summary-value">{{ Settings::formatPrice($summary['total_earnings'] ?? 0, false) }}</div>
+        <div class="summary-value">{{ App\Facades\Settings::formatPrice($summary['total_earnings'] ?? 0, false) }}</div>
         <div class="summary-detail">All time earnings</div>
     </div>
     
@@ -338,7 +338,7 @@
             <i class="bi bi-calendar-check"></i>
         </div>
         <div class="summary-label">Total Tips</div>
-        <div class="summary-value">{{ Settings::formatPrice($summary['total_tips'] ?? 0, false) }}</div>
+        <div class="summary-value">{{ App\Facades\Settings::formatPrice($summary['total_tips'] ?? 0, false) }}</div>
         <div class="summary-detail">Tips received</div>
     </div>
     
@@ -401,11 +401,11 @@
                     </td>
                     <td style="text-align: right;">
                         <span class="transaction-amount {{ $entry->type }}">
-                            {{ $entry->type === 'credit' ? '+' : '-' }}{{ Settings::formatPrice($entry->total_provider_amount, false) }}
+                            {{ $entry->type === 'credit' ? '+' : '-' }}{{ App\Facades\Settings::formatPrice($entry->total_provider_amount, false) }}
                         </span>
                     </td>
                     <td style="text-align: right;">
-                        <span class="transaction-balance">{{ Settings::formatPrice($entry->balance_after, false) }}</span>
+                        <span class="transaction-balance">{{ App\Facades\Settings::formatPrice($entry->balance_after, false) }}</span>
                     </td>
                 </tr>
                 @empty
@@ -441,7 +441,7 @@
         data: {
             labels: {!! json_encode($monthlyTrend->pluck('month')) !!},
             datasets: [{
-                label: 'Monthly Earnings ({{ Settings::currency() }})',
+                label: 'Monthly Earnings ({{ App\Facades\Settings::currency() }})',
                 data: {!! json_encode($monthlyTrend->pluck('total')) !!},
                 borderColor: '#872341',
                 backgroundColor: 'rgba(135, 35, 65, 0.1)',
@@ -468,7 +468,7 @@
                     bodyColor: '#fff',
                     callbacks: {
                         label: function(context) {
-                            return 'Earnings: {{ Settings::currency() }}' + context.parsed.y.toLocaleString();
+                            return 'Earnings: {{ App\Facades\Settings::currency() }}' + context.parsed.y.toLocaleString();
                         }
                     }
                 }
@@ -478,7 +478,7 @@
                     beginAtZero: true,
                     ticks: {
                         callback: function(value) {
-                            return '{{ Settings::currency() }}' + value.toLocaleString();
+                            return '{{ App\Facades\Settings::currency() }}' + value.toLocaleString();
                         }
                     }
                 }

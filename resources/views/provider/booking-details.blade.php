@@ -318,7 +318,7 @@
                             <i class="bi bi-clock me-1"></i>{{ $service->duration }} minutes
                         </div>
                     </div>
-                    <div class="service-price">{{ Settings::formatPrice($service->price) }}</div>
+                    <div class="service-price">{{ App\Facades\Settings::formatPrice($service->price) }}</div>
                 </div>
                 @endforeach
 
@@ -326,7 +326,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <span style="font-size: 20px; font-weight: 700; color: #111827;">Total Amount</span>
                         <span style="font-size: 24px; font-weight: 800; color: #872341;">
-                            {{ Settings::formatPrice($appointment->total_amount) }}
+                            {{ App\Facades\Settings::formatPrice($appointment->total_amount) }}
                         </span>
                     </div>
                 </div>
@@ -347,7 +347,7 @@
 
                 <div class="info-row">
                     <span class="info-label">Service Amount</span>
-                    <span class="info-value">{{ Settings::formatPrice($appointment->payment->service_amount ?? 0) }}</span>
+                    <span class="info-value">{{ App\Facades\Settings::formatPrice($appointment->payment->service_amount ?? 0) }}</span>
                 </div>
 
                 @if($appointment->payment->tip_amount > 0)
@@ -355,14 +355,14 @@
                     <span class="info-label">
                         <i class="bi bi-star-fill me-2" style="color: #f59e0b;"></i>Tip Amount
                     </span>
-                    <span class="info-value">{{ Settings::formatPrice($appointment->payment->tip_amount) }}</span>
+                    <span class="info-value">{{ App\Facades\Settings::formatPrice($appointment->payment->tip_amount) }}</span>
                 </div>
                 @endif
 
                 <div class="info-row">
                     <span class="info-label">Total Paid</span>
                     <span class="info-value" style="font-size: 18px; color: #10b981;">
-                        {{ Settings::formatPrice($appointment->payment->total_amount ?? $appointment->payment->amount) }}
+                        {{ App\Facades\Settings::formatPrice($appointment->payment->total_amount ?? $appointment->payment->amount) }}
                     </span>
                 </div>
 
@@ -425,13 +425,13 @@
                 </h5>
                 
                 <div class="earnings-amount">
-                    {{ Settings::formatPrice($earnings['total']) }}
+                    {{ App\Facades\Settings::formatPrice($earnings['total']) }}
                 </div>
 
                 <div class="earnings-breakdown">
                     <div class="earnings-row">
                         <span>Service Amount:</span>
-                        <span style="font-weight: 600;">{{ Settings::formatPrice($earnings['service_amount']) }}</span>
+                        <span style="font-weight: 600;">{{ App\Facades\Settings::formatPrice($earnings['service_amount']) }}</span>
                     </div>
                     <div class="earnings-row">
                         <span>Your Commission:</span>
@@ -447,7 +447,7 @@
                     @endif
                     <div class="earnings-row" style="border-top: 2px solid #065f46; padding-top: 10px; margin-top: 10px; font-weight: 700; font-size: 16px;">
                         <span>Total Earned:</span>
-                        <span>{{ Settings::formatPrice($earnings['total']) }}</span>
+                        <span>{{ App\Facades\Settings::formatPrice($earnings['total']) }}</span>
                     </div>
                 </div>
             </div>

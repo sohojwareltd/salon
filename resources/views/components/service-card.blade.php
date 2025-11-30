@@ -30,7 +30,7 @@
             </div>
             
             <div class="text-xl font-bold text-indigo-600">
-                {{ Settings::formatPrice($service->price) }}
+                {{ App\Facades\Settings::formatPrice($service->price) }}
             </div>
         </div>
     </div>

@@ -73,7 +73,7 @@
                                         @foreach(session('appointment')->services as $service)
                                         <div style="display: flex; justify-content: space-between; align-items: center;">
                                             <span style="font-size: 14px; color: #111827; font-weight: 500;">{{ $service->name }}</span>
-                                            <span style="font-size: 13px; color: #10b981; font-weight: 600;">{{ Settings::formatPrice($service->price, false) }}</span>
+                                            <span style="font-size: 13px; color: #10b981; font-weight: 600;">{{ App\Facades\Settings::formatPrice($service->price, false) }}</span>
                                         </div>
                                         @endforeach
                                     </div>
@@ -84,7 +84,7 @@
                             <div class="col-12">
                                 <div style="padding: 16px; background: linear-gradient(135deg, #065f46, #047857); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
                                     <span style="font-size: 14px; color: #d1fae5; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Total Amount</span>
-                                    <span style="font-size: 24px; color: white; font-weight: 800;">{{ Settings::formatPrice(session('appointment')->total_amount, false) }}</span>
+                                    <span style="font-size: 24px; color: white; font-weight: 800;">{{ App\Facades\Settings::formatPrice(session('appointment')->total_amount, false) }}</span>
                                 </div>
                             </div>
                         </div>

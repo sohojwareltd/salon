@@ -78,7 +78,7 @@
                                 </span>
                             </div>
                             <div class="ml-4">
-                                <span class="text-lg font-bold text-indigo-600">{{ Settings::formatPrice($appointment->service->price) }}</span>
+                                <span class="text-lg font-bold text-indigo-600">{{ App\Facades\Settings::formatPrice($appointment->service->price) }}</span>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                                 <div class="ml-4 text-right">
-                                    <span class="text-lg font-bold text-gray-900">{{ Settings::formatPrice($appointment->service->price) }}</span>
+                                    <span class="text-lg font-bold text-gray-900">{{ App\Facades\Settings::formatPrice($appointment->service->price) }}</span>
                                     @if($appointment->status === 'completed' && $appointment->payment_status === 'pending')
                                         <div class="mt-2">
                                             <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">Pay Now</button>

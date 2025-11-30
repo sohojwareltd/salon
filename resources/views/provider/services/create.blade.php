@@ -229,10 +229,10 @@
                 <div>
                     <label for="price" class="form-label-modern">
                         <i class="bi bi-currency-dollar" style="color: #872341;"></i>
-                        Price ({{ Settings::currency() }}) <span style="color: #dc3545;">*</span>
+                        Price ({{ App\Facades\Settings::currency() }}) <span style="color: #dc3545;">*</span>
                     </label>
                     <div class="input-group-modern">
-                        <span class="input-prefix">{{ Settings::currency() }}</span>
+                        <span class="input-prefix">{{ App\Facades\Settings::currency() }}</span>
                         <input type="number" 
                                class="form-control-modern @error('price') is-invalid @enderror" 
                                id="price" 

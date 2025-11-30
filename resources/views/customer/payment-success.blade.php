@@ -94,7 +94,7 @@
                 Amount Paid
             </div>
             <div style="font-size: 42px; font-weight: 800; color: #15803d;">
-                {{ Settings::formatPrice($payment->amount) }}
+                {{ App\Facades\Settings::formatPrice($payment->amount) }}
             </div>
         </div>
 

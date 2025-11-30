@@ -279,7 +279,7 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="price-badge">{{ Settings::formatPrice($service->price, false) }}</span>
+                                <span class="price-badge">{{ App\Facades\Settings::formatPrice($service->price, false) }}</span>
                             </td>
                             <td>
                                 <span class="status-badge {{ $service->is_active ? 'active' : 'inactive' }}">

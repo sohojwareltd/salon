@@ -8,18 +8,18 @@
 
 @section('content')
 <!-- Premium Hero Section -->
-<div class="hero-section animate-fadeIn" style="background: linear-gradient(rgba(9, 18, 44, 0.7), rgba(135, 35, 65, 0.7)), url('{{ Settings::get('hero_image') ? asset('storage/' . Settings::get('hero_image')) : 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1600' }}') center/cover no-repeat; position: relative;">
+<div class="hero-section animate-fadeIn" style="background: linear-gradient(rgba(9, 18, 44, 0.7), rgba(135, 35, 65, 0.7)), url('{{ App\Facades\Settings::get('hero_image') ? asset('storage/' . App\Facades\Settings::get('hero_image')) : 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1600' }}') center/cover no-repeat; position: relative;">
     <div class="container">
         <div class="hero-content text-center">
             <h1 class="hero-title animate-fadeInUp">
-                {!! nl2br(e(Settings::get('hero_title', 'The Fyna Barber\'s House'))) !!}
+                {!! nl2br(e(App\Facades\Settings::get('hero_title', 'The Fyna Barber\'s House'))) !!}
             </h1>
             <p class="hero-subtitle animate-fadeInUp" style="animation-delay: 0.2s;">
-                {{ Settings::get('hero_subtitle', 'Experience authentic style where tradition meets modern grooming excellence') }}
+                {{ App\Facades\Settings::get('hero_subtitle', 'Experience authentic style where tradition meets modern grooming excellence') }}
             </p>
             <div class="d-flex gap-3 justify-content-center flex-wrap animate-fadeInUp" style="animation-delay: 0.4s;">
-                <a href="{{ Settings::get('hero_button_link', route('providers.index')) }}" class="btn btn-white btn-lg">
-                    <i class="bi bi-scissors"></i> {{ Settings::get('hero_button_text', 'Browse Salons') }}
+                <a href="{{ App\Facades\Settings::get('hero_button_link', route('providers.index')) }}" class="btn btn-white btn-lg">
+                    <i class="bi bi-scissors"></i> {{ App\Facades\Settings::get('hero_button_text', 'Browse Salons') }}
                 </a>
                 @guest
                     <a href="{{ route('register') }}" class="btn btn-outline btn-lg" style="border-color: white; color: white;">
@@ -40,38 +40,38 @@
         </div>
         
         <div class="row">
-            @if(Settings::get('feature_1_title'))
+            @if(App\Facades\Settings::get('feature_1_title'))
             <div class="col-12 col-md-4 mb-4 animate-fadeInUp">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="bi {{ Settings::get('feature_1_icon', 'bi-calendar-check') }}"></i>
+                        <i class="bi {{ App\Facades\Settings::get('feature_1_icon', 'bi-calendar-check') }}"></i>
                     </div>
-                    <h3 class="feature-title">{{ Settings::get('feature_1_title') }}</h3>
-                    <p class="feature-description">{{ Settings::get('feature_1_description') }}</p>
+                    <h3 class="feature-title">{{ App\Facades\Settings::get('feature_1_title') }}</h3>
+                    <p class="feature-description">{{ App\Facades\Settings::get('feature_1_description') }}</p>
                 </div>
             </div>
             @endif
             
-            @if(Settings::get('feature_2_title'))
+            @if(App\Facades\Settings::get('feature_2_title'))
             <div class="col-12 col-md-4 mb-4 animate-fadeInUp" style="animation-delay: 0.1s;">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="bi {{ Settings::get('feature_2_icon', 'bi-award') }}"></i>
+                        <i class="bi {{ App\Facades\Settings::get('feature_2_icon', 'bi-award') }}"></i>
                     </div>
-                    <h3 class="feature-title">{{ Settings::get('feature_2_title') }}</h3>
-                    <p class="feature-description">{{ Settings::get('feature_2_description') }}</p>
+                    <h3 class="feature-title">{{ App\Facades\Settings::get('feature_2_title') }}</h3>
+                    <p class="feature-description">{{ App\Facades\Settings::get('feature_2_description') }}</p>
                 </div>
             </div>
             @endif
             
-            @if(Settings::get('feature_3_title'))
+            @if(App\Facades\Settings::get('feature_3_title'))
             <div class="col-12 col-md-4 mb-4 animate-fadeInUp" style="animation-delay: 0.2s;">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <i class="bi {{ Settings::get('feature_3_icon', 'bi-shield-check') }}"></i>
+                        <i class="bi {{ App\Facades\Settings::get('feature_3_icon', 'bi-shield-check') }}"></i>
                     </div>
-                    <h3 class="feature-title">{{ Settings::get('feature_3_title') }}</h3>
-                    <p class="feature-description">{{ Settings::get('feature_3_description') }}</p>
+                    <h3 class="feature-title">{{ App\Facades\Settings::get('feature_3_title') }}</h3>
+                    <p class="feature-description">{{ App\Facades\Settings::get('feature_3_description') }}</p>
                 </div>
             </div>
             @endif
@@ -108,7 +108,7 @@
                             @endif
                         </div>
                         <h3 class="service-name">{{ $service->name }}</h3>
-                        <p class="service-price">{{  Settings::formatPrice($service->price) }}</p>
+                        <p class="service-price">{{  App\Facades\Settings::formatPrice($service->price) }}</p>
                         <p class="service-description">{{ Illuminate\Support\Str::limit($service->description, 80) }}</p>
                         <div class="service-meta">
                             <span><i class="bi bi-clock"></i> {{ $service->duration }} min</span>
@@ -571,9 +571,9 @@
                     <i class="bi bi-gift-fill"></i>
                     Special Weekend Offer
                 </div>
-                <h2 class="cta-title mb-3">{!! nl2br(e(Settings::get('cta_title', 'Get 20% Off Every Sunday'))) !!}</h2>
+                <h2 class="cta-title mb-3">{!! nl2br(e(App\Facades\Settings::get('cta_title', 'Get 20% Off Every Sunday'))) !!}</h2>
                 <p style="font-size: 1.25rem; color: var(--gray-300); margin-bottom: 2rem; line-height: 1.8;">
-                    {{ Settings::get('cta_description', 'Join thousands of satisfied customers who trust us for their grooming needs. Book now and save!') }}
+                    {{ App\Facades\Settings::get('cta_description', 'Join thousands of satisfied customers who trust us for their grooming needs. Book now and save!') }}
                 </p>
                 <div class="d-flex gap-3 justify-content-center justify-content-start flex-wrap">
                     @guest
@@ -581,8 +581,8 @@
                             <i class="bi bi-person-plus"></i> Create Free Account
                         </a>
                     @else
-                        <a href="{{ Settings::get('cta_button_link', route('providers.index')) }}" class="btn-white btn-lg">
-                            <i class="bi bi-calendar-check"></i> {{ Settings::get('cta_button_text', 'Book Appointment') }}
+                        <a href="{{ App\Facades\Settings::get('cta_button_link', route('providers.index')) }}" class="btn-white btn-lg">
+                            <i class="bi bi-calendar-check"></i> {{ App\Facades\Settings::get('cta_button_text', 'Book Appointment') }}
                         </a>
                     @endguest
                     <a href="{{ route('providers.index') }}" class="btn-outline btn-lg" style="border-color: white; color: white;">
@@ -594,7 +594,7 @@
                 <div class="cta-discount-badge">
                     <div style="text-align: center; color: var(--white);">
                         @php
-                            $discountParts = explode(' ', Settings::get('cta_discount_text', '20% OFF'));
+                            $discountParts = explode(' ', App\Facades\Settings::get('cta_discount_text', '20% OFF'));
                             $percentage = $discountParts[0] ?? '20%';
                             $offText = $discountParts[1] ?? 'OFF';
                         @endphp
