@@ -506,20 +506,104 @@
                                         </div>
                                     </div> --}}
 
+                                    <!-- Guest User Personal Information -->
+                                    @guest
+                                    <div class="mb-5" style="border-top: 2px solid #e5e7eb; padding-top: 2rem;">
+                                        <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(37, 99, 235, 0.05)); padding: 1.5rem; border-radius: 12px; border: 2px solid rgba(59, 130, 246, 0.2); margin-bottom: 1.5rem;">
+                                            <div class="d-flex align-items-start gap-3">
+                                                <i class="bi bi-person-circle" style="font-size: 24px; color: #3b82f6; flex-shrink: 0;"></i>
+                                                <div>
+                                                    <h4 style="font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 0.5rem;">
+                                                        Guest Booking Information
+                                                    </h4>
+                                                    <p style="font-size: 13px; color: #1e3a8a; margin: 0; line-height: 1.6;">
+                                                        Please provide your contact information. We'll create an account for you and send login credentials to your email.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <label class="form-label-modern" style="font-size: 18px; margin-bottom: 1rem;">
+                                            <i class="bi bi-person-fill" style="color: #872341; font-size: 20px;"></i>
+                                            Your Information <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="row g-3">
+                                            <div class="col-12 col-md-6">
+                                                <label for="guest_name" class="form-label-modern">
+                                                    <i class="bi bi-person"></i>
+                                                    Full Name <span class="text-danger">*</span>
+                                                </label>
+                                                <input type="text" id="guest_name" name="guest_name" 
+                                                    value="{{ old('guest_name') }}" required
+                                                    class="form-control-modern @error('guest_name') border-danger @enderror"
+                                                    placeholder="Enter your full name">
+                                                @error('guest_name')
+                                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <label for="guest_email" class="form-label-modern">
+                                                    <i class="bi bi-envelope"></i>
+                                                    Email Address <span class="text-danger">*</span>
+                                                </label>
+                                                <input type="email" id="guest_email" name="guest_email" 
+                                                    value="{{ old('guest_email') }}" required
+                                                    class="form-control-modern @error('guest_email') border-danger @enderror"
+                                                    placeholder="your.email@example.com">
+                                                <small style="color: #6b7280; font-size: 12px; display: block; margin-top: 0.25rem;">
+                                                    <i class="bi bi-info-circle"></i> Login credentials will be sent to this email
+                                                </small>
+                                                @error('guest_email')
+                                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <label for="guest_phone" class="form-label-modern">
+                                                    <i class="bi bi-telephone"></i>
+                                                    Phone Number <span class="text-danger">*</span>
+                                                </label>
+                                                <input type="tel" id="guest_phone" name="guest_phone" 
+                                                    value="{{ old('guest_phone') }}" required
+                                                    class="form-control-modern @error('guest_phone') border-danger @enderror"
+                                                    placeholder="+880 1234-567890">
+                                                @error('guest_phone')
+                                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-12 col-md-6">
+                                                <label for="guest_notes" class="form-label-modern">
+                                                    <i class="bi bi-chat-left-text"></i>
+                                                    Additional Notes (Optional)
+                                                </label>
+                                                <textarea id="guest_notes" name="notes" rows="3"
+                                                    class="form-control-modern @error('notes') border-danger @enderror"
+                                                    placeholder="Any special requests or notes...">{{ old('notes') }}</textarea>
+                                                @error('notes')
+                                                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endguest
+
                                     <!-- Error Messages -->
                                     @if ($errors->any())
-                                        <div class="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-                                            <div class="flex">
-                                                <svg class="h-5 w-5 text-red-400 mt-0.5" fill="currentColor"
-                                                    viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                                <div class="ml-3">
-                                                    @foreach ($errors->all() as $error)
-                                                        <p class="text-sm text-red-700">{{ $error }}</p>
-                                                    @endforeach
+                                        <div class="mb-4" style="background: rgba(239, 68, 68, 0.1); border: 2px solid #ef4444; border-radius: 12px; padding: 1rem;">
+                                            <div class="d-flex align-items-start gap-2">
+                                                <i class="bi bi-exclamation-triangle-fill" style="color: #ef4444; font-size: 20px; margin-top: 2px;"></i>
+                                                <div class="flex-grow-1">
+                                                    <h4 style="font-size: 14px; font-weight: 700; color: #991b1b; margin-bottom: 0.5rem;">
+                                                        Please fix the following errors:
+                                                    </h4>
+                                                    <ul style="margin: 0; padding-left: 1.25rem; color: #991b1b; font-size: 13px;">
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>

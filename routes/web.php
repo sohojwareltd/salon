@@ -21,6 +21,10 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services.ind
 Route::get('/providers', [ProviderController::class, 'index'])->name('providers.index');
 Route::get('/providers/{provider}', [ProviderController::class, 'show'])->name('providers.show');
 
+// Guest Appointment Booking
+Route::get('/guest/appointments/book/{provider}', [App\Http\Controllers\GuestAppointmentController::class, 'show'])->name('guest.appointments.book');
+Route::post('/guest/appointments/book/{provider}', [App\Http\Controllers\GuestAppointmentController::class, 'store'])->name('guest.appointments.store');
+
 // Authentication Routes
 Auth::routes(['verify' => true]);
 
@@ -123,12 +127,14 @@ Route::middleware(['auth', 'verified', 'role:customer'])->prefix('customer-dashb
 });
 
 // Legacy dashboard route (will redirect based on role)
+// Appointment Booking (Public - handles both guest and authenticated users)
+Route::get('/appointments/book/{provider?}', [DashboardController::class, 'bookingPage'])->name('appointments.book');
+Route::get('/appointments/available-slots/{provider}', [DashboardController::class, 'availableSlots'])->name('appointments.available-slots');
+Route::post('/appointments', [DashboardController::class, 'storeAppointment'])->name('appointments.store');
+Route::get('/appointments/thank-you', [DashboardController::class, 'thankYou'])->name('appointments.thank-you');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/appointments/book/{provider?}', [DashboardController::class, 'bookingPage'])->name('appointments.book');
-    Route::get('/appointments/available-slots/{provider}', [DashboardController::class, 'availableSlots'])->name('appointments.available-slots');
-    Route::post('/appointments', [DashboardController::class, 'storeAppointment'])->name('appointments.store');
-    Route::get('/appointments/thank-you', [DashboardController::class, 'thankYou'])->name('appointments.thank-you');
 });
 
 

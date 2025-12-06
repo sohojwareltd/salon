@@ -449,30 +449,83 @@
     ======================================== */
     @media (max-width: 768px) {
         .providers-hero {
-            padding: 4rem 0 6rem;
+            padding: 3rem 0 5rem;
         }
         
         .providers-hero-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
+        }
+
+        .providers-hero-subtitle {
+            font-size: 1.125rem;
         }
         
         .providers-hero-icon {
-            width: 80px;
-            height: 80px;
-            font-size: 2.5rem;
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-section {
+            margin-top: -3rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-card {
+            padding: 1.25rem;
         }
 
         .providers-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
         .search-box {
-            flex-direction: column;
+            flex-direction: row;
+        }
+
+        .search-input {
+            padding: 0.875rem 1.25rem;
+            font-size: 0.9375rem;
         }
 
         .btn-search {
-            width: 100%;
-            justify-content: center;
+            flex-shrink: 0;
+            padding: 0.875rem 1.25rem;
+        }
+
+        .btn-search span {
+            display: none;
+        }
+
+        .btn-search i {
+            margin: 0;
+        }
+
+        .provider-card {
+            max-width: 100%;
+        }
+
+        .provider-header {
+            padding: 1.25rem;
+        }
+
+        .provider-avatar-wrapper {
+            width: 90px;
+            height: 90px;
+        }
+
+        .provider-name {
+            font-size: 1.25rem;
+        }
+
+        .provider-rating {
+            font-size: 0.875rem;
+        }
+
+        .provider-body {
+            padding: 1rem;
         }
 
         .provider-stats {
@@ -480,9 +533,86 @@
         }
 
         .provider-stat-value {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
+        }
+
+        .provider-stat-label {
+            font-size: 0.75rem;
+        }
+
+        .provider-footer {
+            padding: 1rem;
+        }
+
+        .provider-footer .btn {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.875rem;
         }
     }
+
+    @media (max-width: 576px) {
+        .providers-hero-title {
+            font-size: 1.75rem;
+        }
+
+        .providers-hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .search-card {
+            padding: 1rem;
+        }
+
+        .search-input {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-search {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .providers-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .provider-header {
+            padding: 1rem;
+        }
+
+        .provider-avatar-wrapper {
+            width: 80px;
+            height: 80px;
+        }
+
+        .provider-name {
+            font-size: 1.125rem;
+        }
+
+        .provider-body {
+            padding: 0.875rem;
+        }
+
+        .provider-stat-value {
+            font-size: 1rem;
+        }
+
+        .provider-stat-label {
+            font-size: 0.6875rem;
+        }
+
+        .provider-footer {
+            padding: 0.875rem;
+        }
+
+        .provider-footer .btn {
+            padding: 0.625rem 1rem;
+            font-size: 0.8125rem;
+        }
+    }
+    
+
 </style>
 @endpush
 

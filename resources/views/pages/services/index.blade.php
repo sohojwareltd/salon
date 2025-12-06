@@ -83,8 +83,15 @@
     .filter-tabs {
         display: flex;
         gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
     }
 
     .filter-tab {
@@ -96,6 +103,8 @@
         cursor: pointer;
         transition: all 0.3s ease;
         border: 2px solid transparent;
+        flex: 0 0 auto;
+        white-space: nowrap;
     }
 
     .filter-tab:hover {
@@ -466,27 +475,43 @@
     /* ========================================
        RESPONSIVE DESIGN
     ======================================== */
+    @media (max-width: 1024px) {
+        .services-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+    }
+
     @media (max-width: 768px) {
         .services-hero {
-            padding: 4rem 0 6rem;
+            padding: 3rem 0 5rem;
         }
         
         .services-hero-title {
-            font-size: 2.5rem;
+            font-size: 2rem;
+        }
+        
+        .services-hero-subtitle {
+            font-size: 1rem;
         }
         
         .services-hero-icon {
-            width: 80px;
-            height: 80px;
-            font-size: 2.5rem;
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
         }
 
-        .services-grid {
-            grid-template-columns: 1fr;
+        .filter-section {
+            margin-top: -3rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-card {
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
         }
 
         .filter-tabs {
-            justify-content: flex-start;
+            gap: 0.75rem;
         }
 
         .filter-tab {
@@ -494,14 +519,181 @@
             font-size: 0.9375rem;
         }
 
-        .service-header {
-            flex-direction: column;
-            gap: 0.75rem;
+        .services-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .service-card {
+            max-width: 100%;
+        }
+
+        .service-image {
+            height: 160px;
+        }
+
+        .service-content {
+            padding: 1rem 1.25rem 1.25rem;
+        }
+
+        .service-title {
+            font-size: 1.125rem;
+        }
+
+        .service-price {
+            font-size: 1.25rem;
+        }
+
+        .service-description {
+            font-size: 0.8125rem;
         }
 
         .service-meta {
-            flex-direction: column;
             gap: 0.75rem;
+            padding-top: 0.75rem;
+        }
+
+        .service-meta-item {
+            font-size: 0.8125rem;
+        }
+
+        .btn-book-service {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .pagination .page-link {
+            padding: 0.625rem 0.875rem;
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .services-hero {
+            padding: 2.5rem 0 4rem;
+        }
+
+        .services-hero-title {
+            font-size: 1.75rem;
+        }
+
+        .services-hero-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section {
+            margin-top: -2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-card {
+            padding: 1rem;
+        }
+
+        .filter-tab {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .services-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .service-image {
+            height: 150px;
+        }
+
+        .service-content {
+            padding: 0.875rem 1rem 1rem;
+        }
+
+        .service-header {
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .service-title {
+            font-size: 1rem;
+        }
+
+        .service-price {
+            font-size: 1.125rem;
+        }
+
+        .service-description {
+            font-size: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-meta {
+            gap: 0.5rem;
+            padding-top: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-meta-item {
+            font-size: 0.75rem;
+        }
+
+        .service-meta-item i {
+            font-size: 0.875rem;
+        }
+
+        .service-providers-label {
+            font-size: 0.75rem;
+        }
+
+        .providers-list {
+            gap: 0.375rem;
+        }
+
+        .provider-avatar {
+            width: 28px;
+            height: 28px;
+            font-size: 0.6875rem;
+        }
+
+        .btn-book-service {
+            padding: 0.625rem 1rem;
+            font-size: 0.8125rem;
+            gap: 0.375rem;
+        }
+
+        .empty-state {
+            padding: 3rem 1rem;
+        }
+
+        .empty-state-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2.5rem;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+        }
+
+        .empty-state-text {
+            font-size: 0.9375rem;
+        }
+
+        .pagination-wrapper {
+            margin-top: 2rem;
+        }
+
+        .pagination {
+            gap: 0.375rem;
+        }
+
+        .pagination .page-link {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8125rem;
+            min-width: 36px;
         }
     }
 </style>
@@ -598,10 +790,17 @@
                         @endif
 
                         @if($service->providers->count() > 0)
-                            <a href="{{ route('appointments.book', $service->providers->first()) }}?service={{ $service->id }}" class="btn-book-service" style="text-decoration: none;">
-                                <span>Book Now</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
+                            @auth
+                                <a href="{{ route('appointments.book', $service->providers->first()) }}?service={{ $service->id }}" class="btn-book-service" style="text-decoration: none;">
+                                    <span>Book Now</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('appointments.book', $service->providers->first()) }}?service={{ $service->id }}" class="btn-book-service" style="text-decoration: none;">
+                                    <span>Reserve Your Spot</span>
+                                    <i class="bi bi-calendar-plus"></i>
+                                </a>
+                            @endauth
                         @else
                             <button class="btn-book-service" style="opacity: 0.6; cursor: not-allowed;" disabled>
                                 <span>No Providers Available</span>

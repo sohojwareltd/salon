@@ -96,6 +96,163 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
     }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 20px;
+        }
+
+        .page-header > div {
+            flex-direction: column !important;
+            gap: 16px;
+            align-items: flex-start !important;
+        }
+
+        .page-header h2 {
+            font-size: 22px !important;
+        }
+
+        .page-header p {
+            font-size: 13px !important;
+        }
+
+        .page-header a {
+            width: 100%;
+            text-align: center;
+            padding: 12px 20px !important;
+        }
+
+        .filter-tabs {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 8px;
+            gap: 8px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-tab {
+            flex: 0 0 auto;
+            white-space: nowrap;
+            padding: 10px 16px;
+            font-size: 12px;
+            min-width: fit-content;
+        }
+
+        .booking-card {
+            padding: 16px;
+        }
+
+        .booking-card .row {
+            flex-direction: column;
+        }
+
+        .booking-card .col-lg-2,
+        .booking-card .col-lg-7,
+        .booking-card .col-lg-3 {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .booking-card .col-lg-2 > div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+        }
+
+        .booking-card .col-lg-2 > div > div:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .booking-card .col-lg-2 > div > div:first-child > div:first-child {
+            font-size: 24px !important;
+        }
+
+        .booking-card .col-lg-2 > div > div:first-child > div:nth-child(2) {
+            font-size: 12px !important;
+        }
+
+        .booking-card .col-lg-2 > div > div:first-child > div:nth-child(3) {
+            display: none;
+        }
+
+        .booking-card .col-lg-2 > div > div:last-child {
+            border-top: none !important;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        .booking-card .col-lg-7 h5 {
+            font-size: 18px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .booking-card .col-lg-7 > div > div:first-child > div {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+        }
+
+        .booking-card .col-lg-7 > div > div:last-child {
+            flex-wrap: wrap;
+            margin-top: 12px !important;
+            gap: 6px !important;
+        }
+
+        .booking-card .col-lg-7 > div > div:last-child .status-badge {
+            width: auto;
+            flex: 0 0 auto;
+            padding: 4px 10px !important;
+            font-size: 10px !important;
+        }
+
+        .booking-card .col-lg-7 > div > div:last-child .status-badge i {
+            font-size: 9px !important;
+        }
+
+        .booking-card .col-lg-3 > div {
+            flex-direction: column-reverse !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+            gap: 16px;
+        }
+
+        .booking-card .col-lg-3 > div > div:first-child {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .booking-card .col-lg-3 > div > div:first-child > div:first-child {
+            font-size: 13px !important;
+        }
+
+        .booking-card .col-lg-3 > div > div:first-child > div:last-child {
+            font-size: 24px !important;
+        }
+
+        .booking-card .col-lg-3 > div > div:last-child {
+            width: 100%;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .btn-action i {
+            font-size: 12px;
+        }
+    }
 </style>
 
 <!-- Page Header -->
@@ -183,8 +340,8 @@
                             </div>
                         </div>
                         
-                        <div style="display: flex; gap: 12px; margin-top: 16px;">
-                            <span class="status-badge" style="
+                        <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
+                            <span class="status-badge" style="padding: 4px 10px; font-size: 10px; width: auto;
                                 @if($appointment->status === 'completed') background: linear-gradient(135deg, #10b981, #059669); color: white;
                                 @elseif($appointment->status === 'confirmed') background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;
                                 @elseif($appointment->status === 'pending') background: linear-gradient(135deg, #f59e0b, #f97316); color: white;
@@ -195,12 +352,12 @@
                                     @elseif($appointment->status === 'confirmed') bi-calendar-check-fill
                                     @elseif($appointment->status === 'pending') bi-clock-fill
                                     @else bi-x-circle-fill
-                                    @endif me-1"></i>
+                                    @endif" style="font-size: 9px;"></i>
                                 {{ ucfirst($appointment->status) }}
                             </span>
-                            <span class="status-badge" style="{{ $appointment->payment_status === 'paid' ? 'background: linear-gradient(135deg, #10b981, #059669);' : 'background: linear-gradient(135deg, #f59e0b, #f97316);' }} color: white;">
-                                <i class="bi {{ $appointment->payment_status === 'paid' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill' }} me-1"></i>
-                                {{ $appointment->payment_status === 'paid' ? 'Paid' : 'Payment Pending' }}
+                            <span class="status-badge" style="padding: 4px 10px; font-size: 10px; width: auto; {{ $appointment->payment_status === 'paid' ? 'background: linear-gradient(135deg, #10b981, #059669);' : 'background: linear-gradient(135deg, #f59e0b, #f97316);' }} color: white;">
+                                <i class="bi {{ $appointment->payment_status === 'paid' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill' }}" style="font-size: 9px;"></i>
+                                {{ $appointment->payment_status === 'paid' ? 'Paid' : 'Pending' }}
                             </span>
                         </div>
                     </div>

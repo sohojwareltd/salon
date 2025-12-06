@@ -86,6 +86,72 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .notifications-header {
+            padding: 20px;
+        }
+
+        .notifications-header h2 {
+            font-size: 22px !important;
+        }
+
+        .notifications-header p {
+            font-size: 13px !important;
+        }
+
+        .notifications-header > div {
+            flex-direction: column !important;
+            gap: 16px;
+            align-items: flex-start !important;
+        }
+
+        .notifications-header > div > div:last-child {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+            padding: 12px 20px;
+        }
+
+        .notification-card {
+            padding: 16px;
+        }
+
+        .notification-card > div {
+            flex-direction: column !important;
+            gap: 12px !important;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+        }
+
+        .notification-card h5 {
+            font-size: 15px !important;
+        }
+
+        .notification-card p {
+            font-size: 13px !important;
+        }
+
+        .notification-card > div > div:last-child > div {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 8px;
+        }
+
+        .notification-card > div > div:last-child > div > button {
+            width: 100%;
+            text-align: left;
+        }
+    }
 </style>
 
 <div class="notifications-container">

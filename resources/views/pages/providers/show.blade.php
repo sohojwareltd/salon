@@ -779,9 +779,9 @@
                             Book Appointment Now
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="btn-book-appointment">
-                            <i class="bi bi-box-arrow-in-right"></i>
-                            Login to Book Appointment
+                        <a href="{{ route('appointments.book', $provider) }}" class="btn-book-appointment">
+                            <i class="bi bi-calendar-heart"></i>
+                            Get Your Appointment
                         </a>
                     @endauth
                 </div>
@@ -850,12 +850,12 @@
                                     {{ $service->description ?? 'Professional service delivered with expertise and attention to detail. Get the perfect look with our skilled barbers.' }}
                                 </p>
                                 @auth
-                                    <a href="{{ route('appointments.book', $provider) }}" class="btn-service">
+                                    <a href="{{ route('appointments.book', $provider) }}?service={{ $service->id }}" class="btn-service">
                                         Book Now <i class="bi bi-arrow-right"></i>
                                     </a>
                                 @else
-                                    <a href="{{ route('login') }}" class="btn-service">
-                                        Login to Book <i class="bi bi-arrow-right"></i>
+                                    <a href="{{ route('appointments.book', $provider) }}?service={{ $service->id }}" class="btn-service">
+                                        Schedule Service <i class="bi bi-calendar-plus"></i>
                                     </a>
                                 @endauth
                             </div>

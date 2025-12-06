@@ -206,15 +206,17 @@
                 </div>
             </div>
             <div>
-                <div style="color: #15803d; font-size: 13px; margin-bottom: 4px;">Salon</div>
-                <div style="color: #166534; font-weight: 600;">
-                    {{ $appointment->salon->salon_name }}
-                </div>
-            </div>
-            <div>
                 <div style="color: #15803d; font-size: 13px; margin-bottom: 4px;">Provider</div>
                 <div style="color: #166534; font-weight: 600;">
                     {{ $appointment->provider->name }}
+                </div>
+            </div>
+            <div>
+                <div style="color: #15803d; font-size: 13px; margin-bottom: 4px;">Status</div>
+                <div style="color: #166534; font-weight: 600;">
+                    <span style="background: {{ $appointment->status === 'completed' ? '#10b981' : '#f59e0b' }}; color: white; padding: 4px 12px; border-radius: 6px; font-size: 13px;">
+                        {{ ucfirst($appointment->status) }}
+                    </span>
                 </div>
             </div>
         </div>

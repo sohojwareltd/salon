@@ -17,24 +17,26 @@ class AppointmentForm
             ->components([
                 Section::make('Appointment Details')
                     ->schema([
-                        Select::make('user_id')
-                            ->relationship('user', 'name')
+                        Select::make('customer_id')
+                            ->relationship('customer', 'name')
                             ->required()
                             ->searchable()
-                            ->label('Customer'),
-                        Select::make('salon_id')
-                            ->relationship('salon', 'name')
-                            ->required()
-                            ->searchable(),
+                            ->label('Customer')
+                            ->preload(),
                         Select::make('provider_id')
                             ->relationship('provider', 'name')
                             ->required()
-                            ->searchable(),
-                        Select::make('service_id')
-                            ->relationship('service', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->label('Provider'),
+                        Select::make('services')
+                            ->relationship('services', 'name')
+                            ->multiple()
                             ->required()
-                            ->searchable(),
-                    ])->columns(2),
+                            ->searchable()
+                            ->preload()
+                            ->label('Service(s)'),
+                    ])->columns(3),
                 Section::make('Date & Time')
                     ->schema([
                         Grid::make(3)
@@ -55,8 +57,10 @@ class AppointmentForm
                                     ->options([
                                         'pending' => 'Pending',
                                         'confirmed' => 'Confirmed',
+                                        'in_progress' => 'In Progress',
                                         'completed' => 'Completed',
                                         'cancelled' => 'Cancelled',
+                                        'no_show' => 'No Show',
                                     ])
                                     ->required()
                                     ->default('pending'),

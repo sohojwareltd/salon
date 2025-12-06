@@ -22,7 +22,7 @@
         right: 0;
         width: 150px;
         height: 150px;
-        opacity: 0.1;
+        opacity: 0.05;
         border-radius: 50%;
     }
 
@@ -67,12 +67,34 @@
         font-weight: 600;
         display: inline-block;
     }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .stat-card {
+            padding: 20px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+        }
+    }
 </style>
 
 <!-- Statistics Cards -->
-<div class="row g-4 mb-4">
+<div class="row g-3 mb-4">
     <!-- Total Appointments -->
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6 col-6">
         <div class="stat-card stat-card-1">
             <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
                 <i class="bi bi-clipboard-check"></i>
@@ -86,7 +108,7 @@
     </div>
 
     <!-- Upcoming -->
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6 col-6">
         <div class="stat-card stat-card-2">
             <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
                 <i class="bi bi-calendar-event"></i>
@@ -100,7 +122,7 @@
     </div>
 
     <!-- Completed -->
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6 col-6">
         <div class="stat-card stat-card-3">
             <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
                 <i class="bi bi-check-circle"></i>
@@ -114,7 +136,7 @@
     </div>
 
     <!-- Pending Payments -->
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6 col-6">
         <div class="stat-card stat-card-4">
             <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
                 <i class="bi bi-credit-card"></i>
@@ -160,6 +182,31 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
         color: white;
+    }
+
+    @media (max-width: 768px) {
+        .payment-alert {
+            padding: 16px;
+        }
+
+        .payment-item {
+            padding: 16px;
+            flex-direction: column;
+        }
+
+        .payment-item .d-flex {
+            flex-direction: column !important;
+            gap: 12px;
+        }
+
+        .payment-item > div:last-child {
+            text-align: left !important;
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 12px 20px;
+        }
     }
 </style>
 
@@ -297,9 +344,60 @@
     .btn-view-all:hover {
         color: #BE3144;
     }
+
+    @media (max-width: 768px) {
+        .section-header {
+            padding: 16px;
+        }
+
+        .section-title {
+            font-size: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+        }
+
+        .section-badge {
+            font-size: 12px;
+            padding: 4px 12px;
+        }
+
+        .appointment-card {
+            padding: 16px;
+        }
+
+        .appointment-card h6 {
+            font-size: 16px !important;
+        }
+
+        .appointment-card > div {
+            flex-direction: column !important;
+            gap: 12px;
+        }
+
+        .appointment-card > div > div:last-child {
+            text-align: left !important;
+        }
+
+        .appointment-card > div > div:last-child > p {
+            font-size: 20px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .appointment-card > div > div:last-child > span {
+            display: block !important;
+            width: fit-content;
+        }
+
+        .section-card > div:last-child {
+            padding: 12px !important;
+            max-height: none !important;
+        }
+    }
 </style>
 
-<div class="row g-4 mb-4">
+<div class="row g-3 mb-4">
     <!-- Upcoming Appointments -->
     <div class="col-lg-6">
         <div class="section-card">

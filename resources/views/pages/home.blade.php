@@ -129,8 +129,8 @@
 
 <!-- Top Rated Providers Section -->
 @if($topProviders->count() > 0)
-<section style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-1) 100%); padding: 5rem 0;">
-    <div class="container-fluid" style="padding: 0 3rem;">
+<section class="top-providers-section" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-1) 100%); padding: 5rem 0;">
+    <div class="container-fluid top-providers-container" style="padding: 0 3rem;">
         <div class="section-header animate-fadeInUp">
             <h2 class="section-title" style="color: white;">Top Rated Providers</h2>
             <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9);">Meet our highest-rated professionals with exceptional service</p>
@@ -445,6 +445,14 @@
             flex: 0 0 calc(50% - 0.75rem);
             min-width: calc(50% - 0.75rem);
         }
+        
+        .top-providers-section {
+            padding: 3rem 0 !important;
+        }
+        
+        .top-providers-container {
+            padding: 0 1.5rem !important;
+        }
     }
     
     @media (max-width: 576px) {
@@ -454,17 +462,58 @@
         }
         
         .slider-nav {
-            width: 40px;
-            height: 40px;
-            font-size: 1.25rem;
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
         }
         
         .slider-prev {
-            left: -15px;
+            left: -5px;
         }
         
         .slider-next {
-            right: -15px;
+            right: -5px;
+        }
+        
+        .providers-slider-wrapper {
+            padding: 0 10px;
+        }
+        
+        .provider-slide-avatar,
+        .provider-slide-avatar-placeholder {
+            width: 70px;
+            height: 70px;
+            font-size: 1.75rem;
+        }
+        
+        .provider-slide-header {
+            padding: 1.25rem;
+        }
+        
+        .provider-slide-body {
+            padding: 1rem;
+        }
+        
+        .provider-slide-name {
+            font-size: 1rem;
+        }
+        
+        .provider-slide-badge {
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.625rem;
+            font-size: 0.6875rem;
+        }
+        
+        .provider-slide-stats {
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.6875rem;
+        }
+        
+        .btn-provider-slide {
+            padding: 0.5rem 0.875rem;
+            font-size: 0.75rem;
         }
     }
 </style>

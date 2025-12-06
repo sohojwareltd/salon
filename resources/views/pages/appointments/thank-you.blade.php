@@ -91,12 +91,72 @@
                     </div>
                     @endif
 
+                    <!-- Guest User Credentials Notice -->
+                    @guest
+                    @if(session('isNewGuestUser') && session('guestPassword'))
+                    <div style="margin-bottom: 24px; padding: 24px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); border-radius: 16px; border: 2px solid rgba(59, 130, 246, 0.3); text-align: left;">
+                        <div style="display: flex; align-items-start; gap: 12px; margin-bottom: 16px;">
+                            <i class="bi bi-shield-check-fill" style="font-size: 28px; color: #3b82f6; margin-top: 2px;"></i>
+                            <div style="flex: 1;">
+                                <h4 style="font-size: 18px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
+                                    🎉 Account Created Successfully!
+                                </h4>
+                                <p style="font-size: 14px; color: #1e3a8a; margin: 0; line-height: 1.6;">
+                                    Your account has been created. Save these credentials to login and manage your appointments.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Credentials Box -->
+                        <div style="background: white; border-radius: 12px; padding: 20px; margin-top: 16px;">
+                            <div style="margin-bottom: 16px;">
+                                <label style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 6px;">
+                                    📧 Email Address
+                                </label>
+                                <div style="background: #f3f4f6; padding: 12px 16px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 15px; font-weight: 600; color: #111827; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>{{ session('appointment')->customer->email }}</span>
+                                    <button onclick="copyToClipboard('{{ session('appointment')->customer->email }}')" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">
+                                        <i class="bi bi-clipboard"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 6px;">
+                                    🔑 Password
+                                </label>
+                                <div style="background: #f3f4f6; padding: 12px 16px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 15px; font-weight: 600; color: #111827; display: flex; justify-content: space-between; align-items: center;">
+                                    <span>{{ session('guestPassword') }}</span>
+                                    <button onclick="copyToClipboard('{{ session('guestPassword') }}')" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">
+                                        <i class="bi bi-clipboard"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 16px; padding: 12px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                            <p style="font-size: 13px; color: #92400e; margin: 0;">
+                                <i class="bi bi-info-circle-fill" style="color: #f59e0b;"></i>
+                                <strong>Note:</strong> We've also sent these credentials to your email. Please change your password after first login.
+                            </p>
+                        </div>
+                    </div>
+                    @endif
+                    @endguest
+
                     <!-- Action Buttons -->
                     <div style="display: flex; gap: 12px; margin-top: 32px;">
+                        @auth
                         <a href="{{ route('customer.bookings') }}" style="flex: 1; padding: 14px 24px; background: linear-gradient(135deg, #872341, #BE3144); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
                             <i class="bi bi-calendar-check"></i>
                             View My Appointments
                         </a>
+                        @else
+                        <a href="{{ route('login') }}" style="flex: 1; padding: 14px 24px; background: linear-gradient(135deg, #872341, #BE3144); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Login to Your Account
+                        </a>
+                        @endauth
                         <a href="{{ route('home') }}" style="flex: 1; padding: 14px 24px; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
                             <i class="bi bi-house"></i>
                             Back to Home
@@ -140,4 +200,23 @@ a:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 </style>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Show success message
+        const btn = event.target.closest('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
+        btn.style.background = '#10b981';
+        
+        setTimeout(function() {
+            btn.innerHTML = originalText;
+            btn.style.background = '#3b82f6';
+        }, 2000);
+    }).catch(function(err) {
+        alert('Failed to copy: ' + err);
+    });
+}
+</script>
 @endsection

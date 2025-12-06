@@ -26,10 +26,11 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'phone' => fake()->phoneNumber(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'role' => 'user',
+            'role_id' => 3, // Default to customer role (id: 3)
         ];
     }
 
@@ -49,7 +50,27 @@ class UserFactory extends Factory
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'role' => 'admin',
+            'role_id' => 1, // Admin role (id: 1)
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a provider.
+     */
+    public function provider(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => 2, // Provider role (id: 2)
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a customer.
+     */
+    public function customer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => 3, // Customer role (id: 3)
         ]);
     }
 }

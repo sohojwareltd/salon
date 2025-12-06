@@ -13,7 +13,8 @@ class DashboardController extends Controller
 
     public function __construct(AppointmentSlotService $slotService)
     {
-        $this->middleware('auth');
+        // Apply auth middleware only to dashboard routes, not booking routes
+        $this->middleware('auth')->except(['bookingPage', 'availableSlots', 'storeAppointment', 'thankYou']);
         $this->slotService = $slotService;
     }
     
@@ -87,21 +88,68 @@ class DashboardController extends Controller
 
     public function storeAppointment(Request $request)
     {
-        $validated = $request->validate([
+        // Base validation rules
+        $rules = [
             'provider_id' => 'required|exists:providers,id',
             'service_ids' => 'required|array|min:1',
             'service_ids.*' => 'required|exists:services,id',
             'appointment_date' => 'required|date|after_or_equal:today',
             'start_time' => 'required',
-        ]);
+        ];
+
+        // Add guest user validation rules if not authenticated
+        if (!auth()->check()) {
+            $rules['guest_name'] = 'required|string|max:255';
+            $rules['guest_email'] = 'required|email|max:255';
+            $rules['guest_phone'] = 'required|string|max:20';
+        }
+
+        $validated = $request->validate($rules);
 
         try {
+            // Handle guest user creation/login
+            $customerId = null;
+            $password = null;
+            $isNewGuestUser = false;
+
+            if (auth()->check()) {
+                // Authenticated user
+                $customerId = auth()->user()->id;
+            } else {
+                // Guest user - create or find account
+                $user = \App\Models\User::where('email', $validated['guest_email'])->first();
+                
+                if (!$user) {
+                    // Create new user account
+                    $password = \Illuminate\Support\Str::random(10);
+                    $customerRole = \App\Models\Role::where('name', 'customer')->first();
+                    
+                    $user = \App\Models\User::create([
+                        'name' => $validated['guest_name'],
+                        'email' => $validated['guest_email'],
+                        'phone' => $validated['guest_phone'],
+                        'password' => \Illuminate\Support\Facades\Hash::make($password),
+                        'role_id' => $customerRole ? $customerRole->id : 3,
+                    ]);
+                    
+                    $isNewGuestUser = true;
+                } else {
+                    // Update existing user info
+                    $user->update([
+                        'name' => $validated['guest_name'],
+                        'phone' => $validated['guest_phone'],
+                    ]);
+                }
+                
+                $customerId = $user->id;
+            }
+
             $provider = Provider::findOrFail($validated['provider_id']);
             $services = \App\Models\Service::whereIn('id', $validated['service_ids'])->get();
             
             $appointment = $this->slotService->bookAppointmentWithMultipleServices(
                 $provider,
-                auth()->user()->id,
+                $customerId,
                 $services,
                 $validated['appointment_date'],
                 $validated['start_time'],
@@ -109,17 +157,17 @@ class DashboardController extends Controller
             );
 
             // Load relationships for thank you page
-            $appointment->load(['provider.user', 'services']);
+            $appointment->load(['provider.user', 'services', 'customer']);
 
             // Create notifications
-            $customerName = auth()->user()->name;
+            $customerName = $appointment->customer->name;
             $providerName = $appointment->provider->name;
             $date = \Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y');
             $time = \Carbon\Carbon::parse($appointment->start_time)->format('g:i A');
             
             // Notify Customer
             makeNotification(
-                auth()->user()->id,
+                $customerId,
                 'Booking Confirmed',
                 "Your appointment with {$providerName} on {$date} at {$time} has been submitted and is pending approval.",
                 route('customer.booking.details', $appointment->id),
@@ -136,10 +184,9 @@ class DashboardController extends Controller
             );
 
             // Send appointment booked email to customer
-            $customer = \Illuminate\Support\Facades\Auth::user();
-            \Illuminate\Support\Facades\Mail::to($customer->email)
+            \Illuminate\Support\Facades\Mail::to($appointment->customer->email)
                 ->send(new \App\Mail\AppointmentBooked(
-                    $customer,
+                    $appointment->customer,
                     'customer',
                     $appointment
                 ));
@@ -152,9 +199,33 @@ class DashboardController extends Controller
                     $appointment
                 ));
 
+            // Send credentials email for new guest users
+            if ($isNewGuestUser && $password) {
+                try {
+                    \Illuminate\Support\Facades\Log::info('Sending guest credentials email', [
+                        'email' => $appointment->customer->email,
+                        'user_id' => $appointment->customer->id,
+                        'appointment_id' => $appointment->id
+                    ]);
+
+                    \Illuminate\Support\Facades\Mail::to($appointment->customer->email)
+                        ->send(new \App\Mail\GuestAccountCreated(
+                            $appointment->customer,
+                            $password,
+                            $appointment
+                        ));
+
+                    \Illuminate\Support\Facades\Log::info('Guest credentials email sent successfully');
+                } catch (\Exception $mailException) {
+                    \Illuminate\Support\Facades\Log::error('Failed to send guest credentials email: ' . $mailException->getMessage());
+                }
+            }
+
             return redirect()
                 ->route('appointments.thank-you')
-                ->with('appointment', $appointment);
+                ->with('appointment', $appointment)
+                ->with('isNewGuestUser', $isNewGuestUser)
+                ->with('guestPassword', $password);
         } catch (\Exception $e) {
             return back()
                 ->withInput()
@@ -166,7 +237,8 @@ class DashboardController extends Controller
     {
         // Check if appointment data exists in session
         if (!session()->has('appointment')) {
-            return redirect()->route('dashboard');
+            // Redirect to home for guest users, dashboard for authenticated users
+            return auth()->check() ? redirect()->route('dashboard') : redirect()->route('home');
         }
 
         return view('pages.appointments.thank-you');
