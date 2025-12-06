@@ -16,6 +16,7 @@ use Filament\Widgets\FilamentInfoWidget;
 use App\Livewire\StatsOverview;
 use App\Filament\Widgets\AppointmentsChart;
 use App\Filament\Widgets\RevenueChart;
+use App\Facades\Settings;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -32,6 +33,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName(Settings::get('site_name', config('app.name', 'Saloon')))
+            ->brandLogo(Settings::get('header_logo') ? asset('storage/' . Settings::get('header_logo')) : null)
+            ->brandLogoHeight('3rem')
+            ->favicon(Settings::get('favicon') ? asset('storage/' . Settings::get('favicon')) : null)
             ->colors([
                 'primary' => Color::Amber,
             ])

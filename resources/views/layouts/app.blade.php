@@ -275,8 +275,8 @@
                     <!-- Brand Column -->
                     <div class="footer-brand">
                         <div>
-                            @if(App\Facades\Settings::get('footer_logo'))
-                                <img src="{{ asset('storage/' . App\Facades\Settings::get('footer_logo')) }}" alt="{{ App\Facades\Settings::get('site_name') }}" style="height: 110px; margin-bottom: 1rem;">
+                            @if(App\Facades\Settings::get('header_logo'))
+                                <img src="{{ asset('storage/' . App\Facades\Settings::get('header_logo')) }}" alt="{{ App\Facades\Settings::get('site_name') }}" style="height: 110px; margin-bottom: 1rem;">
                             @else
                                 <h3 class="footer-logo">{{ App\Facades\Settings::get('site_name', config('app.name', 'Saloon')) }}</h3>
                             @endif
@@ -455,26 +455,26 @@
 
     <!-- Mobile Navigation & Offcanvas Styles -->
     <style>
-        /* Desktop Header - Center Logo */
+        /* Desktop Header - Show all elements normally */
         @media (min-width: 769px) {
             .header-container {
-                display: grid;
-                grid-template-columns: 1fr auto 1fr;
+                display: flex;
+                justify-content: space-between;
                 align-items: center;
             }
             
             .header-logo {
-                grid-column: 2;
-                justify-self: center;
+                flex: 0 0 auto;
             }
             
             .header-nav {
-                display: none !important;
+                display: flex !important;
+                flex: 1;
+                justify-content: center;
             }
             
             .header-actions {
-                grid-column: 3;
-                justify-self: end;
+                flex: 0 0 auto;
             }
         }
 
