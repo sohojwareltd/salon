@@ -55,6 +55,8 @@ Route::get('/test/clear-cache', function () {
         abort(404);
     }
     
+
+    // p
     $output = [];
     
     // Clear application cache
