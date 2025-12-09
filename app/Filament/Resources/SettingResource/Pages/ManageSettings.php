@@ -89,8 +89,6 @@ class ManageSettings extends Page
                         ->disk('public')
                         ->directory($setting->key === 'favicon' ? 'favicons' : 'logos')
                         ->visibility('public')
-                        ->maxSize(2048)
-                        ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'])
                         ->imageEditor()
                         ->helperText($setting->key === 'favicon' ? 'Upload favicon (16x16 or 32x32 px recommended)' : null);
                     
