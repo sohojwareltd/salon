@@ -51,10 +51,7 @@ Route::get('/test/login-as-user/{id}', function ($id) {
 
 // Test Clear Cache Route (Remove in production)
 Route::get('/test/clear-cache', function () {
-    if (!app()->environment('local')) {
-        abort(404);
-    }
-    
+ 
 
     // p
     $output = [];
