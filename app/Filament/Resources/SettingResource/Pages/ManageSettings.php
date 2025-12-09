@@ -86,8 +86,13 @@ class ManageSettings extends Page
                     $field = Forms\Components\FileUpload::make($setting->key)
                         ->label(ucwords(str_replace('_', ' ', $setting->key)))
                         ->image()
+                        ->disk('public')
                         ->directory($setting->key === 'favicon' ? 'favicons' : 'logos')
                         ->visibility('public')
+                        ->maxSize(2048)
+                        ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'])
+                        ->imageEditor()
+                        ->imageEditorAspectRatios($setting->key === 'favicon' ? ['1:1'] : null)
                         ->helperText($setting->key === 'favicon' ? 'Upload favicon (16x16 or 32x32 px recommended)' : null);
                 } elseif ($setting->key === 'opening_schedule') {
                     $field = Forms\Components\Repeater::make($setting->key)
@@ -210,6 +215,9 @@ class ManageSettings extends Page
                     ];
                 }
                 $valueToStore = json_encode($schedule);
+            } elseif (in_array($key, ['header_logo', 'footer_logo', 'favicon', 'about_salon_image', 'hero_image'])) {
+                // Handle file uploads - value is already the file path from FileUpload component
+                $valueToStore = $value ?? $setting->value;
             } else {
                 $valueToStore = match($setting->type) {
                     'boolean' => $value ? '1' : '0',
