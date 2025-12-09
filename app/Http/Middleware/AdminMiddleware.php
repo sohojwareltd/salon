@@ -16,28 +16,45 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd('check');
-        if (!auth()->check()) {
-            abort(403, 'Unauthorized access. Please login.');
+        // Get authenticated user from any guard
+        $user = auth()->user() ?? auth()->guard('web')->user();
+        
+        if (!$user) {
+            Log::error('No authenticated user in AdminMiddleware');
+            return redirect()->route('login');
         }
-
-        $user = auth()->user();
+        
+        // Refresh user from database to ensure we have latest data including relationships
+        $user = $user->fresh(['role']);
         
         // Check if user has role_id
         if (!$user->role_id) {
-            Log::error('User without role_id trying to access admin', ['user_id' => $user->id]);
-            abort(403, 'Unauthorized access. No role assigned.');
+            Log::error('User without role_id trying to access admin', [
+                'user_id' => $user->id,
+                'email' => $user->email
+            ]);
+            abort(403, 'Unauthorized access. No role assigned. Please contact administrator.');
         }
 
         // Check if role exists
         if (!$user->role) {
-            Log::error('User role not found', ['user_id' => $user->id, 'role_id' => $user->role_id]);
-            abort(403, 'Unauthorized access. Role not found.');
+            Log::error('User role not found', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role_id' => $user->role_id
+            ]);
+            abort(403, 'Unauthorized access. Role not found. Please contact administrator.');
         }
 
-        if (!$user->isAdmin()) {
-            Log::warning('Non-admin user trying to access admin', ['user_id' => $user->id, 'role' => $user->getRoleName()]);
-            abort(403, 'Unauthorized access. Admin privileges required.');
+        $roleName = $user->role->name ?? null;
+        
+        if ($roleName !== 'admin') {
+            Log::warning('Non-admin user trying to access admin panel', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $roleName
+            ]);
+            abort(403, 'Unauthorized access. Admin privileges required. Your role: ' . $roleName);
         }
 
         return $next($request);
