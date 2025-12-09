@@ -19,9 +19,9 @@ class RoleMiddleware
         if (!$request->user()) {
             return redirect()->route('login');
         }
-
+        dd('hello');
         $userRole = $request->user()->getRoleName();
-        
+
         if (!in_array($userRole, $roles)) {
             abort(403, 'Unauthorized access.');
         }
