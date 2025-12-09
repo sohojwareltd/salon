@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -152,5 +155,43 @@ class User extends Authenticatable implements MustVerifyEmail
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+    /**
+     * Determine if the user can access the Filament panel
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Only allow admin users to access the admin panel
+        if ($panel->getId() === 'admin') {
+            // Ensure role relationship is loaded
+            if (!$this->relationLoaded('role')) {
+                $this->load('role');
+            }
+            
+            // Check if user has role_id and role exists
+            if (!$this->role_id || !$this->role) {
+                Log::warning('User trying to access Filament without role', [
+                    'user_id' => $this->id,
+                    'email' => $this->email,
+                    'role_id' => $this->role_id
+                ]);
+                return false;
+            }
+            
+            $isAdmin = $this->role->name === 'admin';
+            
+            if (!$isAdmin) {
+                Log::info('Non-admin user denied Filament access', [
+                    'user_id' => $this->id,
+                    'email' => $this->email,
+                    'role' => $this->role->name
+                ]);
+            }
+            
+            return $isAdmin;
+        }
+        
+        return false;
     }
 }
