@@ -92,8 +92,11 @@ class ManageSettings extends Page
                         ->maxSize(2048)
                         ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'])
                         ->imageEditor()
-                        ->imageEditorAspectRatios($setting->key === 'favicon' ? ['1:1'] : null)
                         ->helperText($setting->key === 'favicon' ? 'Upload favicon (16x16 or 32x32 px recommended)' : null);
+                    
+                    if ($setting->key === 'favicon') {
+                        $field->imageEditorAspectRatios(['1:1']);
+                    }
                 } elseif ($setting->key === 'opening_schedule') {
                     $field = Forms\Components\Repeater::make($setting->key)
                         ->label('Opening Schedule')
