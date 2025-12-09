@@ -16,6 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        dd('check');
         if (!auth()->check()) {
             abort(403, 'Unauthorized access. Please login.');
         }
