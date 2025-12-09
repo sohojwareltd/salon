@@ -15,7 +15,26 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isAdmin()) {
+        if (!auth()->check()) {
+            abort(403, 'Unauthorized access. Please login.');
+        }
+
+        $user = auth()->user();
+        
+        // Check if user has role_id
+        if (!$user->role_id) {
+            \Log::error('User without role_id trying to access admin', ['user_id' => $user->id]);
+            abort(403, 'Unauthorized access. No role assigned.');
+        }
+
+        // Check if role exists
+        if (!$user->role) {
+            \Log::error('User role not found', ['user_id' => $user->id, 'role_id' => $user->role_id]);
+            abort(403, 'Unauthorized access. Role not found.');
+        }
+
+        if (!$user->isAdmin()) {
+            \Log::warning('Non-admin user trying to access admin', ['user_id' => $user->id, 'role' => $user->getRoleName()]);
             abort(403, 'Unauthorized access. Admin privileges required.');
         }
 

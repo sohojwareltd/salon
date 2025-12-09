@@ -19,13 +19,26 @@ class RoleMiddleware
         if (!$request->user()) {
             return redirect()->route('login');
         }
-        dd('hello');
-        $userRole = $request->user()->getRoleName();
+        
+        $user = $request->user();
+        
+        // Check if user has role_id
+        if (!$user->role_id) {
+            \Log::error('User without role_id', ['user_id' => $user->id, 'required_roles' => $roles]);
+            abort(403, 'Unauthorized access. No role assigned.');
+        }
+        
+        $userRole = $user->getRoleName();
+        
+        if (!$userRole) {
+            \Log::error('Could not get role name', ['user_id' => $user->id, 'role_id' => $user->role_id]);
+            abort(403, 'Unauthorized access. Invalid role.');
+        }
 
         if (!in_array($userRole, $roles)) {
-            abort(403, 'Unauthorized access.');
+            \Log::warning('User role mismatch', ['user_id' => $user->id, 'user_role' => $userRole, 'required_roles' => $roles]);
+            abort(403, 'Unauthorized access. Required roles: ' . implode(', ', $roles));
         }
-        // dd($userRole, $roles);
 
         return $next($request);
     }
