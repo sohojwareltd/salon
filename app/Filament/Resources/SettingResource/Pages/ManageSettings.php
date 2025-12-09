@@ -89,12 +89,8 @@ class ManageSettings extends Page
                         ->disk('public')
                         ->directory($setting->key === 'favicon' ? 'favicons' : 'logos')
                         ->visibility('public')
-                        ->imageEditor()
+                        ->preserveFilenames()
                         ->helperText($setting->key === 'favicon' ? 'Upload favicon (16x16 or 32x32 px recommended)' : null);
-                    
-                    if ($setting->key === 'favicon') {
-                        $field->imageEditorAspectRatios(['1:1']);
-                    }
                 } elseif ($setting->key === 'opening_schedule') {
                     $field = Forms\Components\Repeater::make($setting->key)
                         ->label('Opening Schedule')
@@ -145,18 +141,20 @@ class ManageSettings extends Page
                     $field = Forms\Components\FileUpload::make($setting->key)
                         ->label('About Salon Image')
                         ->image()
+                        ->disk('public')
                         ->directory('about')
                         ->visibility('public')
-                        ->maxSize(2048)
+                        ->preserveFilenames()
                         ->helperText('Upload image for about section (recommended: 600x400px)')
                         ->columnSpanFull();
                 } elseif ($setting->key === 'hero_image') {
                     $field = Forms\Components\FileUpload::make($setting->key)
                         ->label('Hero Background Image')
                         ->image()
+                        ->disk('public')
                         ->directory('hero')
                         ->visibility('public')
-                        ->maxSize(2048)
+                        ->preserveFilenames()
                         ->helperText('Upload hero background image (recommended: 1600x900px)')
                         ->columnSpanFull();
                 } elseif (in_array($setting->key, ['address', 'meta_description', 'feature_1_description', 'feature_2_description', 'feature_3_description', 'cta_description'])) {
