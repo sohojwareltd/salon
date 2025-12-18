@@ -1,63 +1,63 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-vh-100" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 60px 20px;">
+<div class="thank-you-page">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <!-- Success Card -->
-                <div style="background: white; border-radius: 24px; padding: 48px 32px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.08);">
+                <div class="success-card">
                     <!-- Success Icon -->
-                    <div style="width: 100px; height: 100px; margin: 0 auto 24px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: scaleIn 0.5s ease;">
-                        <i class="bi bi-check-lg" style="font-size: 56px; color: white; font-weight: bold;"></i>
+                    <div class="success-icon" aria-hidden="true">
+                        <i class="bi bi-check-lg"></i>
                     </div>
 
                     <!-- Success Message -->
-                    <h1 style="font-size: 32px; font-weight: 800; color: #065f46; margin-bottom: 16px;">
+                    <h1 class="title">
                         Booking Confirmed!
                     </h1>
-                    <p style="font-size: 16px; color: #6b7280; line-height: 1.6; margin-bottom: 32px;">
+                    <p class="subtitle">
                         Your appointment has been successfully booked. We've sent you a confirmation with all the details.
                     </p>
 
                     <!-- Appointment Details -->
                     @if(session('appointment'))
-                    <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-radius: 16px; padding: 24px; margin-bottom: 32px; text-align: left;">
-                        <h3 style="font-size: 18px; font-weight: 700; color: #065f46; margin-bottom: 20px; text-align: center;">
+                    <div class="appointment-details">
+                        <h3 class="section-title">
                             <i class="bi bi-calendar-check me-2"></i>Appointment Details
                         </h3>
 
                         <div class="row g-3">
                             <!-- Provider -->
                             <div class="col-12">
-                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 12px;">
-                                    <div style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #872341, #BE3144); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                        <i class="bi bi-person-fill" style="font-size: 24px; color: white;"></i>
+                                <div class="provider-box">
+                                    <div class="provider-avatar" aria-hidden="true">
+                                        <i class="bi bi-person-fill"></i>
                                     </div>
-                                    <div style="flex: 1;">
-                                        <div style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;">Provider</div>
-                                        <div style="font-size: 16px; font-weight: 600; color: #111827;">{{ session('appointment')->provider->user->name ?? 'Provider' }}</div>
+                                    <div class="provider-info">
+                                        <div class="label">Provider</div>
+                                        <div class="value">{{ session('appointment')->provider->user->name ?? 'Provider' }}</div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Date & Time -->
-                            <div class="col-6">
-                                <div style="padding: 12px; background: white; border-radius: 12px;">
-                                    <div style="font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+                            <div class="col-12 col-md-6">
+                                <div class="details-item">
+                                    <div class="details-label">
                                         <i class="bi bi-calendar3 me-1"></i>Date
                                     </div>
-                                    <div style="font-size: 15px; font-weight: 700; color: #065f46;">
+                                    <div class="details-value">
                                         {{ \Carbon\Carbon::parse(session('appointment')->appointment_date)->format('M d, Y') }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div style="padding: 12px; background: white; border-radius: 12px;">
-                                    <div style="font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+                            <div class="col-12 col-md-6">
+                                <div class="details-item">
+                                    <div class="details-label">
                                         <i class="bi bi-clock me-1"></i>Time
                                     </div>
-                                    <div style="font-size: 15px; font-weight: 700; color: #065f46;">
+                                    <div class="details-value">
                                         {{ \Carbon\Carbon::parse(session('appointment')->start_time, 'UTC')->format('h:i A') }}
                                     </div>
                                 </div>
@@ -65,15 +65,15 @@
 
                             <!-- Services -->
                             <div class="col-12">
-                                <div style="padding: 12px; background: white; border-radius: 12px;">
-                                    <div style="font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                                <div class="details-item">
+                                    <div class="details-label">
                                         <i class="bi bi-scissors me-1"></i>Services ({{ session('appointment')->services->count() }})
                                     </div>
-                                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                                    <div class="services-list">
                                         @foreach(session('appointment')->services as $service)
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="font-size: 14px; color: #111827; font-weight: 500;">{{ $service->name }}</span>
-                                            <span style="font-size: 13px; color: #10b981; font-weight: 600;">{{ App\Facades\Settings::formatPrice($service->price, false) }}</span>
+                                        <div class="service-item">
+                                            <span class="service-name">{{ $service->name }}</span>
+                                            <span class="service-price">{{ App\Facades\Settings::formatPrice($service->price, false) }}</span>
                                         </div>
                                         @endforeach
                                     </div>
@@ -82,9 +82,9 @@
 
                             <!-- Total Amount -->
                             <div class="col-12">
-                                <div style="padding: 16px; background: linear-gradient(135deg, #065f46, #047857); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-size: 14px; color: #d1fae5; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Total Amount</span>
-                                    <span style="font-size: 24px; color: white; font-weight: 800;">{{ App\Facades\Settings::formatPrice(session('appointment')->total_amount, false) }}</span>
+                                <div class="total-amount">
+                                    <span class="total-label">Total Amount</span>
+                                    <span class="total-value">{{ App\Facades\Settings::formatPrice(session('appointment')->total_amount, false) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -94,49 +94,49 @@
                     <!-- Guest User Credentials Notice -->
                     @guest
                     @if(session('isNewGuestUser') && session('guestPassword'))
-                    <div style="margin-bottom: 24px; padding: 24px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1)); border-radius: 16px; border: 2px solid rgba(59, 130, 246, 0.3); text-align: left;">
-                        <div style="display: flex; align-items-start; gap: 12px; margin-bottom: 16px;">
-                            <i class="bi bi-shield-check-fill" style="font-size: 28px; color: #3b82f6; margin-top: 2px;"></i>
-                            <div style="flex: 1;">
-                                <h4 style="font-size: 18px; font-weight: 700; color: #1e40af; margin-bottom: 8px;">
+                    <div class="guest-credentials">
+                        <div class="guest-credentials-header">
+                            <i class="bi bi-shield-check-fill" aria-hidden="true"></i>
+                            <div class="flex-1">
+                                <h4 class="guest-credentials-title">
                                     🎉 Account Created Successfully!
                                 </h4>
-                                <p style="font-size: 14px; color: #1e3a8a; margin: 0; line-height: 1.6;">
+                                <p class="guest-credentials-subtitle">
                                     Your account has been created. Save these credentials to login and manage your appointments.
                                 </p>
                             </div>
                         </div>
                         
                         <!-- Credentials Box -->
-                        <div style="background: white; border-radius: 12px; padding: 20px; margin-top: 16px;">
-                            <div style="margin-bottom: 16px;">
-                                <label style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 6px;">
+                        <div class="guest-credentials-box">
+                            <div class="mb-3">
+                                <label class="input-label">
                                     📧 Email Address
                                 </label>
-                                <div style="background: #f3f4f6; padding: 12px 16px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 15px; font-weight: 600; color: #111827; display: flex; justify-content: space-between; align-items: center;">
-                                    <span>{{ session('appointment')->customer->email }}</span>
-                                    <button onclick="copyToClipboard('{{ session('appointment')->customer->email }}')" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">
-                                        <i class="bi bi-clipboard"></i> Copy
+                                <div class="copy-row">
+                                    <span class="copy-value">{{ session('appointment')->customer->email }}</span>
+                                    <button type="button" class="copy-btn" onclick="copyToClipboard(this, '{{ session('appointment')->customer->email }}')">
+                                        <i class="bi bi-clipboard"></i> <span class="btn-text">Copy</span>
                                     </button>
                                 </div>
                             </div>
                             
                             <div>
-                                <label style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 6px;">
+                                <label class="input-label">
                                     🔑 Password
                                 </label>
-                                <div style="background: #f3f4f6; padding: 12px 16px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 15px; font-weight: 600; color: #111827; display: flex; justify-content: space-between; align-items: center;">
-                                    <span>{{ session('guestPassword') }}</span>
-                                    <button onclick="copyToClipboard('{{ session('guestPassword') }}')" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer;">
-                                        <i class="bi bi-clipboard"></i> Copy
+                                <div class="copy-row">
+                                    <span class="copy-value">{{ session('guestPassword') }}</span>
+                                    <button type="button" class="copy-btn" onclick="copyToClipboard(this, '{{ session('guestPassword') }}')">
+                                        <i class="bi bi-clipboard"></i> <span class="btn-text">Copy</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         
-                        <div style="margin-top: 16px; padding: 12px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
-                            <p style="font-size: 13px; color: #92400e; margin: 0;">
-                                <i class="bi bi-info-circle-fill" style="color: #f59e0b;"></i>
+                        <div class="note-box">
+                            <p>
+                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
                                 <strong>Note:</strong> We've also sent these credentials to your email. Please change your password after first login.
                             </p>
                         </div>
@@ -145,30 +145,30 @@
                     @endguest
 
                     <!-- Action Buttons -->
-                    <div style="display: flex; gap: 12px; margin-top: 32px;">
+                    <div class="action-buttons">
                         @auth
-                        <a href="{{ route('customer.bookings') }}" style="flex: 1; padding: 14px 24px; background: linear-gradient(135deg, #872341, #BE3144); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                        <a href="{{ route('customer.bookings') }}" class="btn-cta btn-cta-primary">
                             <i class="bi bi-calendar-check"></i>
                             View My Appointments
                         </a>
                         @else
-                        <a href="{{ route('login') }}" style="flex: 1; padding: 14px 24px; background: linear-gradient(135deg, #872341, #BE3144); color: white; text-decoration: none; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                        <a href="{{ route('login') }}" class="btn-cta btn-cta-primary">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Login to Your Account
                         </a>
                         @endauth
-                        <a href="{{ route('home') }}" style="flex: 1; padding: 14px 24px; background: #f3f4f6; color: #374151; text-decoration: none; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s;">
+                        <a href="{{ route('home') }}" class="btn-cta btn-cta-secondary">
                             <i class="bi bi-house"></i>
                             Back to Home
                         </a>
                     </div>
 
                     <!-- Additional Info -->
-                    <div style="margin-top: 32px; padding-top: 32px; border-top: 1px solid #e5e7eb;">
-                        <div style="display: flex; align-items: start; gap: 12px; text-align: left; background: #fef3c7; padding: 16px; border-radius: 12px; border-left: 4px solid #f59e0b;">
-                            <i class="bi bi-info-circle-fill" style="font-size: 20px; color: #f59e0b; margin-top: 2px;"></i>
-                            <div style="flex: 1;">
-                                <p style="font-size: 14px; color: #92400e; margin: 0; line-height: 1.5;">
+                    <div class="additional-info">
+                        <div class="alert-note">
+                            <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                            <div class="flex-1">
+                                <p>
                                     <strong>Please Note:</strong> Your appointment is currently <strong>pending</strong>. The provider will confirm it shortly. You'll receive a notification once confirmed.
                                 </p>
                             </div>
@@ -181,6 +181,155 @@
 </div>
 
 <style>
+/* Page wrapper */
+.thank-you-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    padding: 48px 16px;
+}
+@media (min-width: 576px) {
+    .thank-you-page { padding: 60px 20px; }
+}
+
+/* Card */
+.success-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+@media (min-width: 576px) {
+    .success-card { padding: 48px 32px; }
+}
+
+.success-icon {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s ease;
+}
+.success-icon i {
+    font-size: 48px;
+    color: #fff;
+    font-weight: bold;
+}
+@media (min-width: 576px) {
+    .success-icon { width: 100px; height: 100px; margin-bottom: 24px; }
+    .success-icon i { font-size: 56px; }
+}
+
+.title { font-size: 26px; font-weight: 800; color: #065f46; margin-bottom: 12px; }
+.subtitle { font-size: 15px; color: #6b7280; line-height: 1.6; margin-bottom: 24px; }
+@media (min-width: 576px) {
+    .title { font-size: 32px; margin-bottom: 16px; }
+    .subtitle { font-size: 16px; margin-bottom: 32px; }
+}
+
+/* Appointment details */
+.appointment-details {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+@media (min-width: 576px) {
+    .appointment-details { padding: 24px; margin-bottom: 32px; }
+}
+.section-title {
+    font-size: 16px; font-weight: 700; color: #065f46; margin-bottom: 16px; text-align: center;
+}
+@media (min-width: 576px) { .section-title { font-size: 18px; margin-bottom: 20px; } }
+
+.provider-box {
+    display: flex; align-items: center; gap: 12px; padding: 12px; background: #fff; border-radius: 12px;
+}
+.provider-avatar {
+    width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #872341, #BE3144);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.provider-avatar i { font-size: 22px; color: #fff; }
+@media (min-width: 576px) {
+    .provider-avatar { width: 48px; height: 48px; }
+    .provider-avatar i { font-size: 24px; }
+}
+.provider-info .label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+.provider-info .value { font-size: 15px; font-weight: 600; color: #111827; }
+@media (min-width: 576px) { .provider-info .value { font-size: 16px; } }
+
+.details-item { padding: 12px; background: #fff; border-radius: 12px; }
+.details-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.details-value { font-size: 14px; font-weight: 700; color: #065f46; }
+@media (min-width: 576px) { .details-value { font-size: 15px; } }
+
+.services-list { display: flex; flex-direction: column; gap: 6px; }
+.service-item { display: flex; justify-content: space-between; align-items: center; }
+.service-name { font-size: 14px; color: #111827; font-weight: 500; }
+.service-price { font-size: 13px; color: #10b981; font-weight: 600; }
+
+.total-amount {
+    padding: 14px; background: linear-gradient(135deg, #065f46, #047857); border-radius: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.total-label { font-size: 12px; color: #d1fae5; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.total-value { font-size: 20px; color: #fff; font-weight: 800; }
+@media (min-width: 576px) {
+    .total-amount { padding: 16px; }
+    .total-value { font-size: 24px; }
+}
+
+/* Guest credentials */
+.guest-credentials {
+    margin-bottom: 20px; padding: 20px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+    border-radius: 16px; border: 2px solid rgba(59, 130, 246, 0.3); text-align: left;
+}
+@media (min-width: 576px) { .guest-credentials { margin-bottom: 24px; padding: 24px; } }
+.guest-credentials-header { display: flex; align-items: start; gap: 12px; margin-bottom: 12px; }
+.guest-credentials-header i { font-size: 24px; color: #3b82f6; margin-top: 2px; }
+@media (min-width: 576px) { .guest-credentials-header i { font-size: 28px; } }
+.guest-credentials-title { font-size: 16px; font-weight: 700; color: #1e40af; margin-bottom: 6px; }
+.guest-credentials-subtitle { font-size: 13px; color: #1e3a8a; margin: 0; line-height: 1.6; }
+@media (min-width: 576px) {
+    .guest-credentials-title { font-size: 18px; margin-bottom: 8px; }
+    .guest-credentials-subtitle { font-size: 14px; }
+}
+.guest-credentials-box { background: #fff; border-radius: 12px; padding: 16px; margin-top: 12px; }
+@media (min-width: 576px) { .guest-credentials-box { padding: 20px; margin-top: 16px; } }
+.input-label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; display: block; margin-bottom: 6px; }
+.copy-row { background: #f3f4f6; padding: 10px 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; font-weight: 600; color: #111827; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+@media (min-width: 576px) { .copy-row { padding: 12px 16px; font-size: 15px; } }
+.copy-value { overflow-wrap: anywhere; }
+.copy-btn { background: #3b82f6; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.copy-btn.success { background: #10b981; }
+.copy-btn:focus { outline: 2px solid #93c5fd; outline-offset: 2px; }
+
+.note-box { margin-top: 12px; padding: 12px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b; }
+.note-box p { font-size: 13px; color: #92400e; margin: 0; }
+.note-box i { color: #f59e0b; }
+
+/* Actions */
+.action-buttons { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+@media (min-width: 576px) { .action-buttons { margin-top: 32px; } }
+.btn-cta { flex: 1; padding: 12px 20px; border-radius: 12px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease; }
+.btn-cta-primary { background: linear-gradient(135deg, #872341, #BE3144); color: #fff; }
+.btn-cta-secondary { background: #f3f4f6; color: #374151; }
+@media (max-width: 575.98px) { .btn-cta { width: 100%; } }
+
+/* Additional info */
+.additional-info { margin-top: 24px; padding-top: 24px; border-top: 1px solid #e5e7eb; }
+@media (min-width: 576px) { .additional-info { margin-top: 32px; padding-top: 32px; } }
+.alert-note { display: flex; align-items: start; gap: 12px; text-align: left; background: #fef3c7; padding: 16px; border-radius: 12px; border-left: 4px solid #f59e0b; }
+.alert-note i { font-size: 18px; color: #f59e0b; margin-top: 2px; }
+.alert-note p { font-size: 13px; color: #92400e; margin: 0; line-height: 1.5; }
+@media (min-width: 576px) { .alert-note i { font-size: 20px; } .alert-note p { font-size: 14px; } }
+
 @keyframes scaleIn {
     0% {
         transform: scale(0);
@@ -194,25 +343,39 @@
         opacity: 1;
     }
 }
-
-a:hover {
+.btn-cta:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 </style>
 
 <script>
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(function() {
-        // Show success message
-        const btn = event.target.closest('button');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="bi bi-check"></i> Copied!';
-        btn.style.background = '#10b981';
-        
+function copyToClipboard(buttonEl, text) {
+    const fallbackCopy = () => {
+        try {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            return Promise.resolve();
+        } catch (e) {
+            return Promise.reject(e);
+        }
+    };
+
+    const doCopy = navigator.clipboard && navigator.clipboard.writeText
+        ? navigator.clipboard.writeText(text)
+        : fallbackCopy();
+
+    doCopy.then(function() {
+        const originalHTML = buttonEl.innerHTML;
+        buttonEl.classList.add('success');
+        buttonEl.innerHTML = '<i class="bi bi-check"></i> <span class="btn-text">Copied!</span>';
         setTimeout(function() {
-            btn.innerHTML = originalText;
-            btn.style.background = '#3b82f6';
+            buttonEl.innerHTML = originalHTML;
+            buttonEl.classList.remove('success');
         }, 2000);
     }).catch(function(err) {
         alert('Failed to copy: ' + err);

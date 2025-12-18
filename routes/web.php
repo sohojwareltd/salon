@@ -87,6 +87,21 @@ Route::get('/test/clear-cache', function () {
     ]);
 })->name('test.clear-cache');
 
+// Test PHP Info Route (Remove in production)
+Route::get('/test/phpinfo', function () {
+    $extensions = get_loaded_extensions();
+    $hasIntl = extension_loaded('intl');
+    
+    return response()->json([
+        'php_version' => phpversion(),
+        'intl_loaded' => $hasIntl,
+        'intl_version' => $hasIntl ? phpversion('intl') : 'Not installed',
+        'loaded_extensions' => $extensions,
+        'server_api' => php_sapi_name(),
+        'ini_file' => php_ini_loaded_file(),
+    ]);
+})->name('test.phpinfo');
+
 // Email Testing Routes (Remove in production)
 if (app()->environment('local')) {
     require __DIR__.'/email-test.php';
