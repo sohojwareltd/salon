@@ -8,6 +8,77 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
+    /* ===== IMPROVED TABS STYLING ===== */
+    .filter-tabs-improved {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+    .tabs-header {
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(135, 35, 65, 0.2) transparent;
+    }
+
+    .tabs-header::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .tabs-header::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .tabs-header::-webkit-scrollbar-thumb {
+        background: rgba(135, 35, 65, 0.2);
+        border-radius: 2px;
+    }
+
+    .tabs-header::-webkit-scrollbar-thumb:hover {
+        background: rgba(135, 35, 65, 0.4);
+    }
+
+    .filter-tab-improved {
+        flex: 0 0 auto;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        background: transparent;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+    }
+
+    .filter-tab-improved i {
+        font-size: 16px;
+    }
+
+    .filter-tab-improved:hover {
+        background: rgba(135, 35, 65, 0.1);
+        color: #872341;
+        transform: translateY(-2px);
+    }
+
+    .filter-tab-improved.active {
+        background: linear-gradient(135deg, #872341, #BE3144);
+        color: white;
+        box-shadow: 0 4px 12px rgba(135, 35, 65, 0.3);
+    }
+
+    /* ===== OLD TABS (FALLBACK) ===== */
     .filter-tabs {
         background: white;
         border-radius: 20px;
@@ -273,19 +344,25 @@
 </div>
 
 <!-- Filter Tabs -->
-<div class="filter-tabs">
-    <button class="filter-tab active" onclick="filterBookings('all')">
-        <i class="bi bi-list-ul me-2"></i>All Bookings
-    </button>
-    <button class="filter-tab" onclick="filterBookings('upcoming')">
-        <i class="bi bi-clock me-2"></i>Upcoming
-    </button>
-    <button class="filter-tab" onclick="filterBookings('completed')">
-        <i class="bi bi-check-circle me-2"></i>Completed
-    </button>
-    <button class="filter-tab" onclick="filterBookings('cancelled')">
-        <i class="bi bi-x-circle me-2"></i>Cancelled
-    </button>
+<div class="filter-tabs-improved">
+    <div class="tabs-header">
+        <button class="filter-tab-improved active" onclick="filterBookings('all')" data-filter="all">
+            <i class="bi bi-list-ul"></i>
+            <span>All Bookings</span>
+        </button>
+        <button class="filter-tab-improved" onclick="filterBookings('upcoming')" data-filter="upcoming">
+            <i class="bi bi-clock"></i>
+            <span>Upcoming</span>
+        </button>
+        <button class="filter-tab-improved" onclick="filterBookings('completed')" data-filter="completed">
+            <i class="bi bi-check-circle"></i>
+            <span>Completed</span>
+        </button>
+        <button class="filter-tab-improved" onclick="filterBookings('cancelled')" data-filter="cancelled">
+            <i class="bi bi-x-circle"></i>
+            <span>Cancelled</span>
+        </button>
+    </div>
 </div>
 
 <!-- Appointments List -->

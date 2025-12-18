@@ -339,9 +339,84 @@
         }
 
         /* Mobile Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            :root {
+                --sidebar-width: 240px;
+            }
+
+            .provider-header {
+                padding: 20px 30px;
+            }
+
+            .content-wrapper {
+                padding: 24px 30px;
+            }
+
+            .header-title h1 {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            :root {
+                --sidebar-width: 220px;
+            }
+
             .provider-sidebar {
+                width: var(--sidebar-width);
+            }
+
+            .provider-info {
+                padding: 16px;
+            }
+
+            .salon-logo-wrapper {
+                width: 70px;
+                height: 70px;
+                margin: 0 auto 10px;
+            }
+
+            .salon-name {
+                font-size: 14px;
+            }
+
+            .salon-role {
+                font-size: 11px;
+            }
+
+            .nav-link-item {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .nav-link-item i {
+                font-size: 16px;
+                margin-right: 10px;
+            }
+
+            .provider-header {
+                padding: 16px 24px;
+            }
+
+            .content-wrapper {
+                padding: 20px 24px;
+            }
+
+            .header-title h1 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 0;
+            }
+
+            .provider-sidebar {
+                position: fixed;
+                width: 280px;
                 transform: translateX(-100%);
+                z-index: 2000;
             }
 
             .provider-sidebar.show {
@@ -354,15 +429,135 @@
             }
 
             .provider-header {
-                padding: 16px 20px;
+                padding: 14px 16px;
+                flex-direction: row;
             }
 
             .content-wrapper {
-                padding: 20px 16px;
+                padding: 16px 12px;
             }
 
             .header-title h1 {
-                font-size: 20px;
+                font-size: 18px;
+            }
+
+            .header-actions {
+                gap: 12px;
+            }
+
+            .header-user {
+                padding: 6px 12px;
+                gap: 10px;
+            }
+
+            .header-user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
+            }
+
+            .header-user-name {
+                font-size: 12px;
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .provider-sidebar {
+                width: 85vw;
+            }
+
+            .provider-header {
+                padding: 12px 12px;
+            }
+
+            .content-wrapper {
+                padding: 12px 10px;
+            }
+
+            .header-title h1 {
+                font-size: 16px;
+            }
+
+            .header-actions {
+                gap: 8px;
+            }
+
+            .header-user-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .provider-sidebar {
+                width: 90vw;
+            }
+
+            .sidebar-cover {
+                height: 80px;
+            }
+
+            .salon-logo-wrapper {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto 8px;
+            }
+
+            .salon-name {
+                font-size: 12px;
+            }
+
+            .salon-role {
+                font-size: 10px;
+            }
+
+            .provider-info {
+                margin-top: -60px;
+                padding: 12px;
+            }
+
+            .sidebar-nav {
+                padding: 12px 8px;
+            }
+
+            .nav-link-item {
+                padding: 10px 10px;
+                margin-bottom: 4px;
+                font-size: 12px;
+            }
+
+            .nav-link-item i {
+                font-size: 14px;
+                width: 20px;
+                margin-right: 8px;
+            }
+
+            .provider-header {
+                padding: 10px 10px;
+            }
+
+            .content-wrapper {
+                padding: 10px 8px;
+            }
+
+            .header-title h1 {
+                font-size: 14px;
+            }
+
+            .header-actions {
+                gap: 6px;
+            }
+
+            .header-user {
+                padding: 4px 8px;
+            }
+
+            .header-user-avatar {
+                width: 24px;
+                height: 24px;
+                font-size: 9px;
             }
         }
     </style>

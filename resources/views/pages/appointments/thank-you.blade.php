@@ -181,17 +181,36 @@
 </div>
 
 <style>
-/* Page wrapper */
+/* ===== RESPONSIVE PAGE WRAPPER ===== */
 .thank-you-page {
     min-height: 100vh;
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     padding: 48px 16px;
 }
+
+@media (max-width: 768px) {
+    .thank-you-page { 
+        padding: 40px 12px; 
+    }
+}
+
+@media (max-width: 640px) {
+    .thank-you-page { 
+        padding: 32px 12px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .thank-you-page { 
+        padding: 24px 10px; 
+    }
+}
+
 @media (min-width: 576px) {
     .thank-you-page { padding: 60px 20px; }
 }
 
-/* Card */
+/* ===== RESPONSIVE CARD ===== */
 .success-card {
     background: #ffffff;
     border-radius: 24px;
@@ -199,6 +218,28 @@
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.08);
 }
+
+@media (max-width: 768px) {
+    .success-card { 
+        padding: 24px 20px;
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .success-card { 
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .success-card { 
+        padding: 16px 12px;
+        border-radius: 16px;
+    }
+}
+
 @media (min-width: 576px) {
     .success-card { padding: 48px 32px; }
 }
@@ -219,6 +260,34 @@
     color: #fff;
     font-weight: bold;
 }
+
+@media (max-width: 768px) {
+    .success-icon { 
+        width: 80px; 
+        height: 80px; 
+        margin: 0 auto 16px; 
+    }
+    .success-icon i { font-size: 40px; }
+}
+
+@media (max-width: 640px) {
+    .success-icon { 
+        width: 70px; 
+        height: 70px; 
+        margin: 0 auto 12px; 
+    }
+    .success-icon i { font-size: 36px; }
+}
+
+@media (max-width: 480px) {
+    .success-icon { 
+        width: 60px; 
+        height: 60px; 
+        margin: 0 auto 12px; 
+    }
+    .success-icon i { font-size: 32px; }
+}
+
 @media (min-width: 576px) {
     .success-icon { width: 100px; height: 100px; margin-bottom: 24px; }
     .success-icon i { font-size: 56px; }
@@ -226,12 +295,28 @@
 
 .title { font-size: 26px; font-weight: 800; color: #065f46; margin-bottom: 12px; }
 .subtitle { font-size: 15px; color: #6b7280; line-height: 1.6; margin-bottom: 24px; }
+
+@media (max-width: 768px) {
+    .title { font-size: 24px; margin-bottom: 10px; }
+    .subtitle { font-size: 14px; margin-bottom: 20px; }
+}
+
+@media (max-width: 640px) {
+    .title { font-size: 20px; margin-bottom: 8px; }
+    .subtitle { font-size: 13px; margin-bottom: 16px; }
+}
+
+@media (max-width: 480px) {
+    .title { font-size: 18px; margin-bottom: 8px; }
+    .subtitle { font-size: 12px; margin-bottom: 12px; }
+}
+
 @media (min-width: 576px) {
     .title { font-size: 32px; margin-bottom: 16px; }
     .subtitle { font-size: 16px; margin-bottom: 32px; }
 }
 
-/* Appointment details */
+/* ===== APPOINTMENT DETAILS - RESPONSIVE ===== */
 .appointment-details {
     background: linear-gradient(135deg, #f0fdf4, #dcfce7);
     border-radius: 16px;
@@ -239,13 +324,59 @@
     margin-bottom: 24px;
     text-align: left;
 }
+
+@media (max-width: 768px) {
+    .appointment-details { 
+        padding: 16px; 
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .appointment-details { 
+        padding: 14px; 
+        margin-bottom: 16px;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .appointment-details { 
+        padding: 12px; 
+        margin-bottom: 12px;
+        border-radius: 10px;
+    }
+}
+
 @media (min-width: 576px) {
     .appointment-details { padding: 24px; margin-bottom: 32px; }
 }
+
 .section-title {
-    font-size: 16px; font-weight: 700; color: #065f46; margin-bottom: 16px; text-align: center;
+    font-size: 16px; 
+    font-weight: 700; 
+    color: #065f46; 
+    margin-bottom: 16px; 
+    text-align: center;
 }
-@media (min-width: 576px) { .section-title { font-size: 18px; margin-bottom: 20px; } }
+
+@media (max-width: 768px) {
+    .section-title { 
+        font-size: 15px; 
+        margin-bottom: 12px; 
+    }
+}
+
+@media (max-width: 640px) {
+    .section-title { 
+        font-size: 14px; 
+        margin-bottom: 10px; 
+    }
+}
+
+@media (min-width: 576px) { 
+    .section-title { font-size: 18px; margin-bottom: 20px; } 
+}
 
 .provider-box {
     display: flex; align-items: center; gap: 12px; padding: 12px; background: #fff; border-radius: 12px;

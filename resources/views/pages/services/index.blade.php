@@ -82,34 +82,54 @@
 
     .filter-tabs {
         display: flex;
-        gap: 1rem;
+        gap: 0.75rem;
         flex-wrap: nowrap;
         justify-content: flex-start;
         overflow-x: auto;
-        scrollbar-width: none; /* Firefox */
+        scrollbar-width: thin; /* Firefox */
         -ms-overflow-style: none; /* IE/Edge */
+        padding: 4px;
+        scroll-behavior: smooth;
     }
 
     .filter-tabs::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+        height: 4px;
+    }
+
+    .filter-tabs::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .filter-tabs::-webkit-scrollbar-thumb {
+        background: rgba(135, 35, 65, 0.2);
+        border-radius: 4px;
+    }
+
+    .filter-tabs::-webkit-scrollbar-thumb:hover {
+        background: rgba(135, 35, 65, 0.4);
     }
 
     .filter-tab {
-        padding: 0.75rem 2rem;
-        border-radius: var(--radius-xl);
+        padding: 10px 18px;
+        border-radius: 12px;
         background: var(--gray-100);
         color: var(--gray-600);
         font-weight: 600;
+        font-size: 14px;
         cursor: pointer;
         transition: all 0.3s ease;
         border: 2px solid transparent;
         flex: 0 0 auto;
         white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
 
     .filter-tab:hover {
         background: var(--gray-200);
         transform: translateY(-2px);
+        color: var(--primary-2);
     }
 
     .filter-tab.active {
@@ -694,6 +714,41 @@
             padding: 0.5rem 0.75rem;
             font-size: 0.8125rem;
             min-width: 36px;
+        }
+
+        /* Responsive tabs adjustments */
+        .filter-tab {
+            padding: 8px 14px;
+            font-size: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .services-hero-title {
+            font-size: 1.75rem;
+        }
+
+        .services-hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .filter-tabs {
+            gap: 0.5rem;
+            padding: 2px;
+        }
+
+        .filter-tab {
+            padding: 8px 12px;
+            font-size: 11px;
+        }
+
+        .service-card {
+            max-width: 100%;
+        }
+
+        .services-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
     }
 </style>

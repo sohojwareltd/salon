@@ -94,7 +94,8 @@ class GuestAppointmentController extends Controller
 
             // Send email notification with credentials if new user
             if ($isNewUser) {
-                $user->notify(new GuestAppointmentCredentials($appointment, $temporaryPassword));
+                // Pass user, password, then appointment to match notification signature
+                $user->notify(new GuestAppointmentCredentials($user, $temporaryPassword, $appointment));
             }
 
             // Redirect to payment based on payment method
