@@ -380,7 +380,6 @@
                     <th>Type</th>
                     <th>Description</th>
                     <th style="text-align: right;">Amount</th>
-                    <th style="text-align: right;">Balance</th>
                 </tr>
             </thead>
             <tbody>
@@ -391,26 +390,23 @@
                         <div class="transaction-time">{{ $entry->created_at->format('g:i A') }}</div>
                     </td>
                     <td>
-                        <span class="transaction-type {{ $entry->type }}">
-                            <i class="bi bi-{{ $entry->type === 'credit' ? 'arrow-down-circle' : 'arrow-up-circle' }} me-1"></i>
+                        <span class="transaction-type {{ $entry->type === 'earning' ? 'credit' : 'debit' }}">
+                            <i class="bi bi-{{ $entry->type === 'earning' ? 'arrow-down-circle' : 'arrow-up-circle' }} me-1"></i>
                             {{ ucfirst($entry->type) }}
                         </span>
                     </td>
                     <td>
-                        <div class="transaction-description">{{ $entry->description }}</div>
+                        <div class="transaction-description">{{ $entry->notes ?? 'Transaction' }}</div>
                     </td>
                     <td style="text-align: right;">
-                        <span class="transaction-amount {{ $entry->type }}">
-                            {{ $entry->type === 'credit' ? '+' : '-' }}{{ App\Facades\Settings::formatPrice($entry->total_provider_amount, false) }}
+                        <span class="transaction-amount {{ $entry->type === 'earning' ? 'credit' : 'debit' }}">
+                            {{ $entry->type === 'earning' ? '+' : '-' }}{{ App\Facades\Settings::formatPrice($entry->total_provider_amount, false) }}
                         </span>
-                    </td>
-                    <td style="text-align: right;">
-                        <span class="transaction-balance">{{ App\Facades\Settings::formatPrice($entry->balance_after, false) }}</span>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5">
+                    <td colspan="4">
                         <div class="empty-state">
                             <div class="empty-icon">
                                 <i class="bi bi-wallet2"></i>
