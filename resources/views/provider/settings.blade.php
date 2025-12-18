@@ -299,13 +299,133 @@
         gap: 12px;
     }
     
-    @media (max-width: 768px) {
+    /* ===== RESPONSIVE TABS ===== */
+    .settings-tabs-container {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+    }
+
+    .settings-tabs-header {
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(135, 35, 65, 0.2) transparent;
+    }
+
+    .settings-tabs-header::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .settings-tabs-header::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .settings-tabs-header::-webkit-scrollbar-thumb {
+        background: rgba(135, 35, 65, 0.2);
+        border-radius: 2px;
+    }
+
+    .settings-tabs-header::-webkit-scrollbar-thumb:hover {
+        background: rgba(135, 35, 65, 0.4);
+    }
+
+    .settings-tab-btn {
+        flex: 0 0 auto;
+        padding: 12px 20px;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        background: transparent;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+    }
+
+    .settings-tab-btn i {
+        font-size: 18px;
+    }
+
+    .settings-tab-btn:hover {
+        background: rgba(135, 35, 65, 0.1);
+        color: #872341;
+        transform: translateY(-2px);
+    }
+
+    .settings-tab-btn.active {
+        background: linear-gradient(135deg, #872341, #BE3144);
+        color: white;
+        box-shadow: 0 4px 12px rgba(135, 35, 65, 0.3);
+    }
+
+    .settings-tab-content {
+        display: none;
+        padding: 28px;
+    }
+
+    .settings-tab-content.active {
+        display: block;
+    }
+
+    /* Desktop: All tabs visible horizontally */
+    @media (min-width: 769px) {
+        .settings-tabs-header {
+            overflow-x: visible;
+        }
+        
+        .settings-tab-btn {
+            flex: 1;
+            justify-content: center;
+        }
+    }
+
+    /* Tablet: Icons hidden, horizontal scroll */
+    @media (max-width: 768px) and (min-width: 641px) {
+        .settings-tab-btn i {
+            display: none;
+        }
+        
         .schedule-grid {
             grid-template-columns: 1fr;
         }
         
         .time-inputs {
             grid-template-columns: 1fr;
+        }
+    }
+
+    /* Mobile: Compact layout */
+    @media (max-width: 640px) {
+        .settings-tab-btn i {
+            display: none;
+        }
+        
+        .settings-tab-btn {
+            padding: 10px 16px;
+            font-size: 13px;
+        }
+
+        .schedule-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .time-inputs {
+            grid-template-columns: 1fr;
+        }
+
+        .settings-tab-content {
+            padding: 16px;
         }
     }
 </style>
@@ -323,15 +443,26 @@
 </div>
 @endif
 
-<!-- Weekly Schedule Settings -->
-<div class="settings-card">
-    <div class="card-header-modern">
-        <h5>
+<!-- Settings Tabs Navigation -->
+<div class="settings-tabs-container">
+    <div class="settings-tabs-header">
+        <button class="settings-tab-btn active" data-tab="schedule" onclick="switchTab(event, 'schedule')">
             <i class="bi bi-calendar-week"></i>
-            Weekly Schedule
-        </h5>
+            <span>Schedule</span>
+        </button>
+        <button class="settings-tab-btn" data-tab="profile" onclick="switchTab(event, 'profile')">
+            <i class="bi bi-person-circle"></i>
+            <span>Profile</span>
+        </button>
+        <button class="settings-tab-btn" data-tab="social" onclick="switchTab(event, 'social')">
+            <i class="bi bi-share"></i>
+            <span>Social</span>
+        </button>
     </div>
-    <div class="card-body-modern">
+</div>
+
+<!-- Schedule Tab -->
+<div id="schedule" class="settings-tab-content active">
         <form action="{{ route('provider.settings.update') }}" method="POST">
             @csrf
             @method('PUT')
@@ -478,18 +609,11 @@
                 </button>
             </div>
         </form>
-    </div>
 </div>
 
-<!-- Profile Information Settings -->
-<div class="settings-card">
-    <div class="card-header-modern">
-        <h5>
-            <i class="bi bi-person-circle"></i>
-            Profile Information
-        </h5>
-    </div>
-    <div class="card-body-modern">
+<!-- Profile Tab -->
+<div id="profile" class="settings-tab-content">
+    <div class="settings-card">
         <form action="{{ route('provider.profile.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -638,16 +762,11 @@
         </form>
     </div>
 </div>
+</div>
 
-<!-- Social Media & Contact Settings -->
-<div class="settings-card">
-    <div class="card-header-modern">
-        <h5>
-            <i class="bi bi-share"></i>
-            Social Media & Online Presence
-        </h5>
-    </div>
-    <div class="card-body-modern">
+<!-- Social Tab -->
+<div id="social" class="settings-tab-content">
+    <div class="settings-card">
         <form action="{{ route('provider.settings.update-social') }}" method="POST">
             @csrf
             @method('PUT')
@@ -750,10 +869,37 @@
         </form>
     </div>
 </div>
+</div>
 @endsection
 
 @push('scripts')
 <script>
+// Tab switching functionality
+function switchTab(event, tabName) {
+    event.preventDefault();
+    
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.settings-tab-content');
+    tabContents.forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Remove active class from all buttons
+    const tabButtons = document.querySelectorAll('.settings-tab-btn');
+    tabButtons.forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab content
+    const selectedTab = document.getElementById(tabName);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+    
+    // Add active class to clicked button
+    event.target.closest('.settings-tab-btn').classList.add('active');
+}
+
 // Toggle day schedule visibility
 function toggleDay(dayIndex) {
     const checkbox = document.querySelector('.day-checkbox[data-day="' + dayIndex + '"]');
