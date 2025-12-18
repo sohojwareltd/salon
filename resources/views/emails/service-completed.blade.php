@@ -97,7 +97,7 @@
 @elseif($userRole === 'provider')
     <div class="alert alert-success">
         💰 <strong>Earnings Status:</strong><br>
-        @if($appointment->payments()->where('payment_status', 'completed')->exists())
+        @if($appointment->payments()->where('status', 'completed')->exists())
             Your earnings for this appointment have been credited to your wallet.
         @else
             Earnings will be credited once payment is completed.

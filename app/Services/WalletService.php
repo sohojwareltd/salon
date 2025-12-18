@@ -106,9 +106,8 @@ class WalletService
      */
     public function createWalletEntryFromAppointment(Appointment $appointment): ProviderWalletEntry
     {
-        $appointment->load(['provider.salon', 'services']);
+        $appointment->load(['provider', 'services']);
         $provider = $appointment->provider;
-        $salon = $provider->salon;
 
         // Calculate total service amount from all services
         $serviceAmount = $appointment->total_amount ?? $appointment->services->sum('price');

@@ -4,7 +4,23 @@
     $notifications = auth()->user()->notifications()->limit(10)->get();
     $unreadCount = auth()->user()->unreadNotificationsCount();
     $provider = auth()->user()->provider ?? null;
-    $salon = $provider ? $provider->salon : null;
+    $admin = \App\Models\User::whereHas('role', function($q) { $q->where('name', 'admin'); })->first();
+    $salon = (object)[
+        'id' => 1,
+        'name' => \App\Models\Setting::get('salon_name', config('app.name')),
+        'phone' => \App\Models\Setting::get('salon_phone', $admin?->phone ?? ''),
+        'email' => \App\Models\Setting::get('salon_email', $admin?->email ?? ''),
+        'address' => \App\Models\Setting::get('salon_address', ''),
+        'city' => \App\Models\Setting::get('salon_city', ''),
+        'state' => \App\Models\Setting::get('salon_state', ''),
+        'country' => \App\Models\Setting::get('salon_country', ''),
+        'postal_code' => \App\Models\Setting::get('salon_postal_code', ''),
+        'website' => \App\Models\Setting::get('salon_website', ''),
+        'subdomain_url' => \App\Models\Setting::get('salon_subdomain_url', ''),
+        'logo' => \App\Models\Setting::get('salon_logo', ''),
+        'cover_image' => \App\Models\Setting::get('salon_cover_image', ''),
+        'description' => \App\Models\Setting::get('salon_description', ''),
+    ];
     $stats = [
         'pending_appointments' => $provider ? $provider->appointments()->where('status', 'pending')->count() : 0,
     ];
