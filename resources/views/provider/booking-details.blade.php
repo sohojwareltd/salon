@@ -463,7 +463,6 @@
                     @if($appointment->status === 'pending')
                     <form action="{{ route('provider.bookings.update-status', $appointment) }}" method="POST" style="display: inline;">
                         @csrf
-                        @method('PATCH')
                         <input type="hidden" name="status" value="confirmed">
                         <button type="submit" class="action-btn btn-confirm w-100">
                             <i class="bi bi-check-circle"></i>
@@ -475,7 +474,6 @@
                     @if($appointment->status === 'confirmed')
                     <form action="{{ route('provider.bookings.update-status', $appointment) }}" method="POST" style="display: inline;">
                         @csrf
-                        @method('PATCH')
                         <input type="hidden" name="status" value="completed">
                         <button type="submit" class="action-btn btn-complete w-100">
                             <i class="bi bi-check-circle-fill"></i>
