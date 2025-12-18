@@ -106,11 +106,15 @@ class WalletService
      */
     public function createWalletEntryFromAppointment(Appointment $appointment): ProviderWalletEntry
     {
-        $appointment->load(['provider', 'services']);
+        $appointment->load(['provider', 'services', 'payment']);
         $provider = $appointment->provider;
+        $payment = $appointment->payment;
 
         // Calculate total service amount from all services
         $serviceAmount = $appointment->total_amount ?? $appointment->services->sum('price');
+
+        // Get tips from payment if exists
+        $tipsAmount = $payment?->tip_amount ?? 0;
 
         // Calculate commissions based on provider's percentage
         $providerCommissionRate = $provider->commission_percentage / 100;
@@ -118,23 +122,38 @@ class WalletService
         
         // Salon gets the rest
         $salonAmount = $serviceAmount - $providerAmount;
+        
+        // Total provider amount includes tips
+        $totalProviderAmount = $providerAmount + $tipsAmount;
+
+        // Build notes message
+        $serviceCount = $appointment->services->count();
+        $notes = "Earnings from appointment #{$appointment->id}";
+        
+        if ($serviceCount > 0) {
+            $notes .= " with " . $serviceCount . " service" . ($serviceCount > 1 ? "s" : "");
+        }
+        
+        if ($tipsAmount > 0) {
+            $notes .= " + " . Settings::formatPrice($tipsAmount, false) . " tips";
+        }
 
         // Create wallet entry
         $walletEntry = ProviderWalletEntry::create([
             'provider_id' => $provider->id,
             'appointment_id' => $appointment->id,
-            'payment_id' => null, // No payment yet
+            'payment_id' => $payment?->id,
             'service_amount' => $serviceAmount,
             'salon_amount' => $salonAmount,
             'provider_amount' => $providerAmount,
-            'tips_amount' => 0,
-            'total_provider_amount' => $providerAmount,
+            'tips_amount' => $tipsAmount,
+            'total_provider_amount' => $totalProviderAmount,
             'type' => 'earning',
-            'notes' => "Earnings from appointment #{$appointment->id} with " . $appointment->services->count() . " service(s)",
+            'notes' => $notes,
         ]);
 
         // Update provider wallet balance
-        $provider->increment('wallet_balance', $providerAmount);
+        $provider->increment('wallet_balance', $totalProviderAmount);
 
         return $walletEntry;
     }
