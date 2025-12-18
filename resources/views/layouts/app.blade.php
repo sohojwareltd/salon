@@ -209,7 +209,7 @@
                             <i class="bi bi-speedometer2"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="{{ route('provider.bookings') }}" class="offcanvas-link">
+                        <a href="{{ route('provider.bookings.index') }}" class="offcanvas-link">
                             <i class="bi bi-calendar-event"></i>
                             <span>Appointments</span>
                         </a>
